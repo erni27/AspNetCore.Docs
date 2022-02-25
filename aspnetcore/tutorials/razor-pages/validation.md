@@ -4,15 +4,15 @@ author: rick-anderson
 description: Part 8 of tutorial series on Razor Pages.
 ms.author: riande
 ms.custom: mvc, contperf-fy21q2
-ms.date: 09/29/2020
-no-loc: [Home, Privacy, Index, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
+ms.date: 10/13/2021
+no-loc: ["Blazor Hybrid", Home, Privacy, Index, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
 uid: tutorials/razor-pages/validation
 ---
 # Part 8 of tutorial series on Razor Pages
 
 By [Rick Anderson](https://twitter.com/RickAndMSFT)
 
-::: moniker range=">= aspnetcore-6.0"
+:::moniker range=">= aspnetcore-6.0"
 
 In this section, validation logic is added to the `Movie` model. The validation rules are enforced any time a user creates or edits a movie.
 
@@ -30,7 +30,7 @@ The validation support provided by Razor Pages and Entity Framework is a good ex
 
 ## Add validation rules to the movie model
 
-The `DataAnnotations` namespace provides:
+The <xref:System.ComponentModel.DataAnnotations> namespace provides:
 
 * A set of built-in validation attributes that are applied declaratively to a class or property.
 * Formatting attributes like `[DataType]` that help with formatting and don't provide any validation.
@@ -197,6 +197,8 @@ CREATE TABLE [dbo].[Movie] (
 
 The preceding schema changes don't cause EF to throw an exception. However, create a migration so the schema is consistent with the model.
 
+# [Visual Studio](#tab/visual-studio)
+
 From the **Tools** menu, select **NuGet Package Manager > Package Manager Console**.
 In the PMC, enter the following commands:
 
@@ -204,6 +206,18 @@ In the PMC, enter the following commands:
 Add-Migration New_DataAnnotations
 Update-Database
 ```
+
+# [Visual Studio Code / Visual Studio for Mac](#tab/visual-studio-code+visual-studio-mac)
+
+Use the following commands to add a migration for the new DataAnnotations:
+
+```dotnetcli
+dotnet ef migrations add New_DataAnnotations
+dotnet ef database update
+
+```
+
+---
 
 `Update-Database` runs the `Up` methods of the `New_DataAnnotations` class. Examine the `Up` method:
 
@@ -239,9 +253,9 @@ Thanks for completing this introduction to Razor Pages. [Get started with Razor 
 
 > [!div class="step-by-step"]
 > [Previous: Add a new field](xref:tutorials/razor-pages/new-field)
-::: moniker-end
+:::moniker-end
 
-::: moniker range="< aspnetcore-6.0"
+:::moniker range="< aspnetcore-6.0"
 
 In this section, validation logic is added to the `Movie` model. The validation rules are enforced any time a user creates or edits a movie.
 
@@ -467,4 +481,4 @@ Thanks for completing this introduction to Razor Pages. [Get started with Razor 
 
 > [!div class="step-by-step"]
 > [Previous: Add a new field](xref:tutorials/razor-pages/new-field)
-::: moniker-end
+:::moniker-end

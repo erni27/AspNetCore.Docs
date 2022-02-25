@@ -2,18 +2,16 @@
 title: JsonPatch in ASP.NET Core web API
 author: rick-anderson
 description: Learn how to handle JSON Patch requests in an ASP.NET Core web API.
+monikerRange: '>= aspnetcore-3.1'
 ms.author: riande
 ms.custom: mvc
 ms.date: 04/02/2020
-no-loc: [Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
+no-loc: ["Blazor Hybrid", Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
 uid: web-api/jsonpatch
 ---
-
 # JsonPatch in ASP.NET Core web API
 
-By [Tom Dykstra](https://github.com/tdykstra) and [Kirk Larkin](https://github.com/serpent5)
-
-::: moniker range=">= aspnetcore-3.0"
+:::moniker range=">= aspnetcore-6.0"
 
 This article explains how to handle JSON Patch requests in an ASP.NET Core web API.
 
@@ -22,7 +20,7 @@ This article explains how to handle JSON Patch requests in an ASP.NET Core web A
 To enable JSON Patch support in your app, complete the following steps:
 
 1. Install the [`Microsoft.AspNetCore.Mvc.NewtonsoftJson`](https://www.nuget.org/packages/Microsoft.AspNetCore.Mvc.NewtonsoftJson/) NuGet package.
-1. Update the project's `Startup.ConfigureServices` method to call <xref:Microsoft.Extensions.DependencyInjection.NewtonsoftJsonMvcBuilderExtensions.AddNewtonsoftJson*>. For example:
+1. Update the project's `Startup.ConfigureServices` method to call <xref:Microsoft.Extensions.DependencyInjection.NewtonsoftJsonMvcBuilderExtensions.AddNewtonsoftJson%2A>. For example:
 
     ```csharp
     services
@@ -32,19 +30,19 @@ To enable JSON Patch support in your app, complete the following steps:
 
 `AddNewtonsoftJson` is compatible with the MVC service registration methods:
 
-* <xref:Microsoft.Extensions.DependencyInjection.MvcServiceCollectionExtensions.AddRazorPages*>
-* <xref:Microsoft.Extensions.DependencyInjection.MvcServiceCollectionExtensions.AddControllersWithViews*>
-* <xref:Microsoft.Extensions.DependencyInjection.MvcServiceCollectionExtensions.AddControllers*>
+* <xref:Microsoft.Extensions.DependencyInjection.MvcServiceCollectionExtensions.AddRazorPages%2A>
+* <xref:Microsoft.Extensions.DependencyInjection.MvcServiceCollectionExtensions.AddControllersWithViews%2A>
+* <xref:Microsoft.Extensions.DependencyInjection.MvcServiceCollectionExtensions.AddControllers%2A>
 
 ## JSON Patch, AddNewtonsoftJson, and System.Text.Json
 
 `AddNewtonsoftJson` replaces the `System.Text.Json`-based input and output formatters used for formatting **all** JSON content. To add support for JSON Patch using `Newtonsoft.Json`, while leaving the other formatters unchanged, update the project's `Startup.ConfigureServices` method as follows:
 
-[!code-csharp[](jsonpatch/samples/3.0/WebApp1/Startup.cs?name=snippet)]
+[!code-csharp[](jsonpatch/samples/3.x/WebApp1/Startup.cs?name=snippet)]
 
 The preceding code requires the `Microsoft.AspNetCore.Mvc.NewtonsoftJson` package and the following `using` statements:
 
-[!code-csharp[](jsonpatch/samples/3.0/WebApp1/Startup.cs?name=snippet1)]
+[!code-csharp[](jsonpatch/samples/3.x/WebApp1/Startup.cs?name=snippet1)]
 
 Use the `Newtonsoft.Json.JsonConvert.SerializeObject` method to serialize a JsonPatchDocument.
 
@@ -60,11 +58,11 @@ For example, the following JSON documents represent a resource, a JSON Patch doc
 
 ### Resource example
 
-[!code-json[](jsonpatch/samples/2.2/JSON/customer.json)]
+[!code-json[](jsonpatch/snippets/customer.json)]
 
 ### JSON patch example
 
-[!code-json[](jsonpatch/samples/2.2/JSON/add.json)]
+[!code-json[](jsonpatch/snippets/add.json)]
 
 In the preceding JSON:
 
@@ -131,13 +129,13 @@ In an API controller, an action method for JSON Patch:
 
 Here's an example:
 
-[!code-csharp[](jsonpatch/samples/2.2/Controllers/HomeController.cs?name=snippet_PatchAction&highlight=1,3,9)]
+[!code-csharp[](jsonpatch/samples/3.x/api/Controllers/HomeController.cs?name=snippet_PatchAction&highlight=1,3,9)]
 
 This code from the sample app works with the following `Customer` model:
 
-[!code-csharp[](jsonpatch/samples/2.2/Models/Customer.cs?name=snippet_Customer)]
+[!code-csharp[](jsonpatch/samples/3.x/api/Models/Customer.cs?name=snippet_Customer)]
 
-[!code-csharp[](jsonpatch/samples/2.2/Models/Order.cs?name=snippet_Order)]
+[!code-csharp[](jsonpatch/samples/3.x/api/Models/Order.cs?name=snippet_Order)]
 
 The sample action method:
 
@@ -163,7 +161,7 @@ The preceding action method example calls an overload of `ApplyTo` that takes mo
 
 The following action method example shows how to apply a patch to a dynamic object:
 
-[!code-csharp[](jsonpatch/samples/2.2/Controllers/HomeController.cs?name=snippet_Dynamic)]
+[!code-csharp[](jsonpatch/samples/3.x/api/Controllers/HomeController.cs?name=snippet_Dynamic)]
 
 ## The add operation
 
@@ -175,7 +173,7 @@ The following action method example shows how to apply a patch to a dynamic obje
 
 The following sample patch document sets the value of `CustomerName` and adds an `Order` object to the end of the `Orders` array.
 
-[!code-json[](jsonpatch/samples/2.2/JSON/add.json)]
+[!code-json[](jsonpatch/snippets/add.json)]
 
 ## The remove operation
 
@@ -188,7 +186,7 @@ The following sample patch document sets the value of `CustomerName` and adds an
 
 The following sample patch document sets `CustomerName` to null and deletes `Orders[0]`:
 
-[!code-json[](jsonpatch/samples/2.2/JSON/remove.json)]
+[!code-json[](jsonpatch/snippets/remove.json)]
 
 ## The replace operation
 
@@ -196,7 +194,7 @@ This operation is functionally the same as a `remove` followed by an `add`.
 
 The following sample patch document sets the value of `CustomerName` and replaces `Orders[0]`with a new `Order` object:
 
-[!code-json[](jsonpatch/samples/2.2/JSON/replace.json)]
+[!code-json[](jsonpatch/snippets/replace.json)]
 
 ## The move operation
 
@@ -212,7 +210,7 @@ The following sample patch document:
 * Sets `Orders[0].OrderName` to null.
 * Moves `Orders[1]` to before `Orders[0]`.
 
-[!code-json[](jsonpatch/samples/2.2/JSON/move.json)]
+[!code-json[](jsonpatch/snippets/move.json)]
 
 ## The copy operation
 
@@ -223,7 +221,7 @@ The following sample patch document:
 * Copies the value of `Orders[0].OrderName` to `CustomerName`.
 * Inserts a copy of `Orders[1]` before `Orders[0]`.
 
-[!code-json[](jsonpatch/samples/2.2/JSON/copy.json)]
+[!code-json[](jsonpatch/snippets/copy.json)]
 
 ## The test operation
 
@@ -233,7 +231,7 @@ The `test` operation is commonly used to prevent an update when there's a concur
 
 The following sample patch document has no effect if the initial value of `CustomerName` is "John", because the test fails:
 
-[!code-json[](jsonpatch/samples/2.2/JSON/test-fail.json)]
+[!code-json[](jsonpatch/snippets/test-fail.json)]
 
 ## Get the code
 
@@ -254,11 +252,42 @@ To test the sample, run the app and send HTTP requests with the following settin
 * [JSON Patch documentation](https://jsonpatch.com/). Includes links to resources for creating JSON Patch documents.
 * [ASP.NET Core JSON Patch source code](https://github.com/dotnet/AspNetCore/tree/main/src/Features/JsonPatch/src)
 
-::: moniker-end
+:::moniker-end
 
-::: moniker range="< aspnetcore-3.0"
+:::moniker range="< aspnetcore-6.0"
 
 This article explains how to handle JSON Patch requests in an ASP.NET Core web API.
+
+## Package installation
+
+To enable JSON Patch support in your app, complete the following steps:
+
+1. Install the [`Microsoft.AspNetCore.Mvc.NewtonsoftJson`](https://www.nuget.org/packages/Microsoft.AspNetCore.Mvc.NewtonsoftJson/) NuGet package.
+1. Update the project's `Startup.ConfigureServices` method to call <xref:Microsoft.Extensions.DependencyInjection.NewtonsoftJsonMvcBuilderExtensions.AddNewtonsoftJson%2A>. For example:
+
+    ```csharp
+    services
+        .AddControllersWithViews()
+        .AddNewtonsoftJson();
+    ```
+
+`AddNewtonsoftJson` is compatible with the MVC service registration methods:
+
+* <xref:Microsoft.Extensions.DependencyInjection.MvcServiceCollectionExtensions.AddRazorPages%2A>
+* <xref:Microsoft.Extensions.DependencyInjection.MvcServiceCollectionExtensions.AddControllersWithViews%2A>
+* <xref:Microsoft.Extensions.DependencyInjection.MvcServiceCollectionExtensions.AddControllers%2A>
+
+## JSON Patch, AddNewtonsoftJson, and System.Text.Json
+
+`AddNewtonsoftJson` replaces the `System.Text.Json`-based input and output formatters used for formatting **all** JSON content. To add support for JSON Patch using `Newtonsoft.Json`, while leaving the other formatters unchanged, update the project's `Startup.ConfigureServices` method as follows:
+
+[!code-csharp[](jsonpatch/samples/3.x/WebApp1/Startup.cs?name=snippet)]
+
+The preceding code requires the `Microsoft.AspNetCore.Mvc.NewtonsoftJson` package and the following `using` statements:
+
+[!code-csharp[](jsonpatch/samples/3.x/WebApp1/Startup.cs?name=snippet1)]
+
+Use the `Newtonsoft.Json.JsonConvert.SerializeObject` method to serialize a JsonPatchDocument.
 
 ## PATCH HTTP request method
 
@@ -266,17 +295,17 @@ The PUT and [PATCH](https://tools.ietf.org/html/rfc5789) methods are used to upd
 
 ## JSON Patch
 
-[JSON Patch](https://tools.ietf.org/html/rfc6902) is a format for specifying updates to be applied to a resource. A JSON Patch document has an array of *operations*. Each operation identifies a particular type of change, such as add an array element or replace a property value.
+[JSON Patch](https://tools.ietf.org/html/rfc6902) is a format for specifying updates to be applied to a resource. A JSON Patch document has an array of *operations*. Each operation identifies a particular type of change. Examples of such changes include adding an array element or replacing a property value.
 
-For example, the following JSON documents represent a resource, a JSON patch document for the resource, and the result of applying the patch operations.
+For example, the following JSON documents represent a resource, a JSON Patch document for the resource, and the result of applying the Patch operations.
 
 ### Resource example
 
-[!code-json[](jsonpatch/samples/2.2/JSON/customer.json)]
+[!code-json[](jsonpatch/snippets/customer.json)]
 
 ### JSON patch example
 
-[!code-json[](jsonpatch/samples/2.2/JSON/add.json)]
+[!code-json[](jsonpatch/snippets/add.json)]
 
 In the preceding JSON:
 
@@ -308,13 +337,13 @@ Here's the resource after applying the preceding JSON Patch document:
 }
 ```
 
-The changes made by applying a JSON Patch document to a resource are atomic: if any operation in the list fails, no operation in the list is applied.
+The changes made by applying a JSON Patch document to a resource are atomic. If any operation in the list fails, no operation in the list is applied.
 
 ## Path syntax
 
 The [path](https://tools.ietf.org/html/rfc6901) property of an operation object has slashes between levels. For example, `"/address/zipCode"`.
 
-Zero-based indexes are used to specify array elements. The first element of the `addresses` array would be at `/addresses/0`. To `add` to the end of an array, use a hyphen (-) rather than an index number: `/addresses/-`.
+Zero-based indexes are used to specify array elements. The first element of the `addresses` array would be at `/addresses/0`. To `add` to the end of an array, use a hyphen (`-`) rather than an index number: `/addresses/-`.
 
 ### Operations
 
@@ -329,9 +358,9 @@ The following table shows supported operations as defined in the [JSON Patch spe
 | `copy`    | Same as `add` to destination using value from source. |
 | `test`    | Return success status code if value at `path` = provided `value`.|
 
-## JsonPatch in ASP.NET Core
+## JSON Patch in ASP.NET Core
 
-The ASP.NET Core implementation of JSON Patch is provided in the [Microsoft.AspNetCore.JsonPatch](https://www.nuget.org/packages/microsoft.aspnetcore.jsonpatch/) NuGet package. The package is included in the [Microsoft.AspnetCore.App](xref:fundamentals/metapackage-app) metapackage.
+The ASP.NET Core implementation of JSON Patch is provided in the [Microsoft.AspNetCore.JsonPatch](https://www.nuget.org/packages/microsoft.aspnetcore.jsonpatch/) NuGet package.
 
 ## Action method code
 
@@ -343,13 +372,13 @@ In an API controller, an action method for JSON Patch:
 
 Here's an example:
 
-[!code-csharp[](jsonpatch/samples/2.2/Controllers/HomeController.cs?name=snippet_PatchAction&highlight=1,3,9)]
+[!code-csharp[](jsonpatch/samples/3.x/api/Controllers/HomeController.cs?name=snippet_PatchAction&highlight=1,3,9)]
 
-This code from the sample app works with the following `Customer` model.
+This code from the sample app works with the following `Customer` model:
 
-[!code-csharp[](jsonpatch/samples/2.2/Models/Customer.cs?name=snippet_Customer)]
+[!code-csharp[](jsonpatch/samples/3.x/api/Models/Customer.cs?name=snippet_Customer)]
 
-[!code-csharp[](jsonpatch/samples/2.2/Models/Order.cs?name=snippet_Order)]
+[!code-csharp[](jsonpatch/samples/3.x/api/Models/Order.cs?name=snippet_Order)]
 
 The sample action method:
 
@@ -357,7 +386,7 @@ The sample action method:
 * Applies the patch.
 * Returns the result in the body of the response.
 
- In a real app, the code would retrieve the data from a store such as a database and update the database after applying the patch.
+In a real app, the code would retrieve the data from a store such as a database and update the database after applying the patch.
 
 ### Model state
 
@@ -373,9 +402,9 @@ The preceding action method example calls an overload of `ApplyTo` that takes mo
 
 ### Dynamic objects
 
-The following action method example shows how to apply a patch to a dynamic object.
+The following action method example shows how to apply a patch to a dynamic object:
 
-[!code-csharp[](jsonpatch/samples/2.2/Controllers/HomeController.cs?name=snippet_Dynamic)]
+[!code-csharp[](jsonpatch/samples/3.x/api/Controllers/HomeController.cs?name=snippet_Dynamic)]
 
 ## The add operation
 
@@ -387,7 +416,7 @@ The following action method example shows how to apply a patch to a dynamic obje
 
 The following sample patch document sets the value of `CustomerName` and adds an `Order` object to the end of the `Orders` array.
 
-[!code-json[](jsonpatch/samples/2.2/JSON/add.json)]
+[!code-json[](jsonpatch/snippets/add.json)]
 
 ## The remove operation
 
@@ -398,17 +427,17 @@ The following sample patch document sets the value of `CustomerName` and adds an
     * If the property is nullable: sets it to null.
     * If the property is non-nullable, sets it to `default<T>`.
 
-The following sample patch document sets `CustomerName` to null and deletes `Orders[0]`.
+The following sample patch document sets `CustomerName` to null and deletes `Orders[0]`:
 
-[!code-json[](jsonpatch/samples/2.2/JSON/remove.json)]
+[!code-json[](jsonpatch/snippets/remove.json)]
 
 ## The replace operation
 
 This operation is functionally the same as a `remove` followed by an `add`.
 
-The following sample patch document sets the value of `CustomerName` and replaces `Orders[0]`with a new `Order` object.
+The following sample patch document sets the value of `CustomerName` and replaces `Orders[0]`with a new `Order` object:
 
-[!code-json[](jsonpatch/samples/2.2/JSON/replace.json)]
+[!code-json[](jsonpatch/snippets/replace.json)]
 
 ## The move operation
 
@@ -424,7 +453,7 @@ The following sample patch document:
 * Sets `Orders[0].OrderName` to null.
 * Moves `Orders[1]` to before `Orders[0]`.
 
-[!code-json[](jsonpatch/samples/2.2/JSON/move.json)]
+[!code-json[](jsonpatch/snippets/move.json)]
 
 ## The copy operation
 
@@ -435,7 +464,7 @@ The following sample patch document:
 * Copies the value of `Orders[0].OrderName` to `CustomerName`.
 * Inserts a copy of `Orders[1]` before `Orders[0]`.
 
-[!code-json[](jsonpatch/samples/2.2/JSON/copy.json)]
+[!code-json[](jsonpatch/snippets/copy.json)]
 
 ## The test operation
 
@@ -445,11 +474,11 @@ The `test` operation is commonly used to prevent an update when there's a concur
 
 The following sample patch document has no effect if the initial value of `CustomerName` is "John", because the test fails:
 
-[!code-json[](jsonpatch/samples/2.2/JSON/test-fail.json)]
+[!code-json[](jsonpatch/snippets/test-fail.json)]
 
 ## Get the code
 
-[View or download sample code](https://github.com/dotnet/AspNetCore.Docs/tree/main/aspnetcore/web-api/jsonpatch/samples/2.2). ([How to download](xref:index#how-to-download-a-sample)).
+[View or download sample code](https://github.com/dotnet/AspNetCore.Docs/tree/main/aspnetcore/web-api/jsonpatch/samples). ([How to download](xref:index#how-to-download-a-sample)).
 
 To test the sample, run the app and send HTTP requests with the following settings:
 
@@ -466,4 +495,4 @@ To test the sample, run the app and send HTTP requests with the following settin
 * [JSON Patch documentation](https://jsonpatch.com/). Includes links to resources for creating JSON Patch documents.
 * [ASP.NET Core JSON Patch source code](https://github.com/dotnet/AspNetCore/tree/main/src/Features/JsonPatch/src)
 
-::: moniker-end
+:::moniker-end

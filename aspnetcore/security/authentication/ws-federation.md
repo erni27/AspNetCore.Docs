@@ -5,7 +5,7 @@ description: This tutorial demonstrates how to use WS-Federation in an ASP.NET C
 ms.author: scaddie
 ms.custom: mvc
 ms.date: 01/16/2019
-no-loc: [Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
+no-loc: ["Blazor Hybrid", Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
 uid: security/authentication/ws-federation
 ---
 # Authenticate users with WS-Federation in ASP.NET Core
@@ -17,7 +17,7 @@ For ASP.NET Core apps, WS-Federation support is provided by [Microsoft.AspNetCor
 By default, the new middleware:
 
 * Doesn't allow unsolicited logins. This feature of the WS-Federation protocol is vulnerable to XSRF attacks. However, it can be enabled with the `AllowUnsolicitedLogins` option.
-* Doesn't check every form post for sign-in messages. Only requests to the `CallbackPath` are checked for sign-ins. `CallbackPath` defaults to `/signin-wsfed` but can be changed via the inherited [RemoteAuthenticationOptions.CallbackPath](/dotnet/api/microsoft.aspnetcore.authentication.remoteauthenticationoptions.callbackpath) property of the [WsFederationOptions](/dotnet/api/microsoft.aspnetcore.authentication.wsfederation.wsfederationoptions) class. This path can be shared with other authentication providers by enabling the [SkipUnrecognizedRequests](/dotnet/api/microsoft.aspnetcore.authentication.wsfederation.wsfederationoptions.skipunrecognizedrequests) option.
+* Doesn't check every form post for sign-in messages. Only requests to the `CallbackPath` are checked for sign-ins. `CallbackPath` defaults to `/signin-wsfed` but can be changed via the inherited <xref:Microsoft.AspNetCore.Authentication.RemoteAuthenticationOptions.CallbackPath%2A?displayProperty=nameWithType> property of the <xref:Microsoft.AspNetCore.Authentication.WsFederation.WsFederationOptions> class. This path can be shared with other authentication providers by enabling the <xref:Microsoft.AspNetCore.Authentication.WsFederation.WsFederationOptions.SkipUnrecognizedRequests%2A> option.
 
 ## Register the app with Active Directory
 
@@ -78,26 +78,26 @@ By default, the new middleware:
 ## Use WS-Federation without ASP.NET Core Identity
 
 The WS-Federation middleware can be used without Identity. For example:
-::: moniker range=">= aspnetcore-3.0"
+:::moniker range=">= aspnetcore-3.0"
 [!code-csharp[](ws-federation/samples/StartupNon31.cs?name=snippet)]
-::: moniker-end
+:::moniker-end
 
-::: moniker range=">= aspnetcore-2.1 < aspnetcore-3.0"
+:::moniker range=">= aspnetcore-2.1 < aspnetcore-3.0"
 [!code-csharp[](ws-federation/samples/StartupNon21.cs?name=snippet)]
-::: moniker-end
+:::moniker-end
 
 ## Add WS-Federation as an external login provider for ASP.NET Core Identity
 
 * Add a dependency on [Microsoft.AspNetCore.Authentication.WsFederation](https://www.nuget.org/packages/Microsoft.AspNetCore.Authentication.WsFederation) to the project.
 * Add WS-Federation to `Startup.ConfigureServices`:
 
-::: moniker range=">= aspnetcore-3.0"
+:::moniker range=">= aspnetcore-3.0"
 [!code-csharp[](ws-federation/samples/Startup31.cs?name=snippet)]
-::: moniker-end
+:::moniker-end
 
-::: moniker range=">= aspnetcore-2.1 < aspnetcore-3.0"
+:::moniker range=">= aspnetcore-2.1 < aspnetcore-3.0"
 [!code-csharp[](ws-federation/samples/Startup21.cs?name=snippet)]
-::: moniker-end
+:::moniker-end
 
 [!INCLUDE [default settings configuration](social/includes/default-settings.md)]
 

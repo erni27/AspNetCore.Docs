@@ -5,7 +5,7 @@ description: Learn how to create Protobuf messages for .NET apps.
 monikerRange: '>= aspnetcore-3.0'
 ms.author: jamesnk
 ms.date: 02/12/2021
-no-loc: [Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
+no-loc: ["Blazor Hybrid", Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
 uid: grpc/protobuf
 ---
 # Create Protobuf messages for .NET apps
@@ -388,14 +388,14 @@ message Status {
 ```csharp
 // Create dynamic values.
 var status = new Status();
-status.Data = Value.FromStruct(new Struct
+status.Data = Value.ForStruct(new Struct
 {
     Fields =
     {
-        ["enabled"] = Value.ForBoolean(true),
+        ["enabled"] = Value.ForBool(true),
         ["metadata"] = Value.ForList(
-            Value.FromString("value1"),
-            Value.FromString("value2"))
+            Value.ForString("value1"),
+            Value.ForString("value2"))
     }
 });
 

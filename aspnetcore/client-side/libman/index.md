@@ -5,7 +5,7 @@ description: Learn how to install client-side library assets in an ASP.NET Core 
 ms.author: scaddie
 ms.custom: mvc
 ms.date: 08/14/2018
-no-loc: [Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
+no-loc: ["Blazor Hybrid", Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
 uid: client-side/libman/index
 ---
 # Client-side library acquisition in ASP.NET Core with LibMan
@@ -21,8 +21,6 @@ LibMan offers the following benefits:
 * Only the library files you need are downloaded.
 * Additional tooling, such as [Node.js](https://nodejs.org), [npm](https://www.npmjs.com), and [WebPack](https://webpack.js.org), isn't necessary to acquire a subset of files in a library.
 * Files can be placed in a specific location without resorting to build tasks or manual file copying.
-
-For more information about LibMan's benefits, watch [Modern front-end web development in Visual Studio 2017: LibMan segment](https://channel9.msdn.com/Events/Build/2017/B8073#time=43m34s).
 
 LibMan isn't a package management system. If you're already using a package manager, such as npm or [yarn](https://yarnpkg.com), continue doing so. LibMan wasn't developed to replace those tools.
 

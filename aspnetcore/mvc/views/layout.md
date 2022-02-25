@@ -4,7 +4,7 @@ author: ardalis
 description: Learn how to use common layouts, share directives, and run common code before rendering views in an ASP.NET Core app.
 ms.author: riande
 ms.date: 07/30/2019
-no-loc: [Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
+no-loc: ["Blazor Hybrid", Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
 uid: mvc/views/layout
 ---
 # Layout in ASP.NET Core
@@ -113,6 +113,7 @@ Views and pages can use Razor directives to import namespaces and use [dependenc
 * `@model`
 * `@inherits`
 * `@inject`
+* `@namespace`
 
 The file doesn't support other Razor features, such as functions and section definitions.
 

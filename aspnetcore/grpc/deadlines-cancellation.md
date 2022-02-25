@@ -5,7 +5,7 @@ description: Learn how to create reliable gRPC services with deadlines and cance
 monikerRange: '>= aspnetcore-3.0'
 ms.author: jamesnk
 ms.date: 09/07/2020
-no-loc: [Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
+no-loc: ["Blazor Hybrid", Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
 uid: grpc/deadlines-cancellation
 ---
 # Reliable gRPC services with deadlines and cancellation
@@ -38,6 +38,10 @@ Configure `CallOptions.Deadline` to set a deadline for a gRPC call:
 Using `ServerCallContext.CancellationToken` in a gRPC service:
 
 [!code-csharp[](~/grpc/deadlines-cancellation/deadline-server.cs?highlight=5)]
+
+### Deadlines and retries
+
+When a gRPC call is configured with [retry fault handling](xref:grpc/retries) and a deadline, the deadline tracks time across all retries for a gRPC call. If the deadline is exceeded, a gRPC call immediately aborts the underlying HTTP request, skips any remaining retries, and throws a `DeadlineExceeded` error.
 
 ### Propagating deadlines
 

@@ -2,18 +2,18 @@
 title: Configuration in ASP.NET Core
 author: rick-anderson
 description: Learn how to use the Configuration API to configure an ASP.NET Core app.
-monikerRange: '>= aspnetcore-2.1'
+monikerRange: '>= aspnetcore-3.1'
 ms.author: riande
 ms.custom: mvc
 ms.date: 1/29/2021
-no-loc: [Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
+no-loc: ["Blazor Hybrid", Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
 uid: fundamentals/configuration/index
 ---
 # Configuration in ASP.NET Core
 
 By [Rick Anderson](https://twitter.com/RickAndMSFT) and [Kirk Larkin](https://twitter.com/serpent5)
 
-::: moniker range=">= aspnetcore-6.0"
+:::moniker range=">= aspnetcore-6.0"
 
 Configuration in ASP.NET Core is performed using one or more [configuration providers](#cp). Configuration providers read configuration data from key-value pairs using a variety of configuration sources:
 
@@ -40,7 +40,7 @@ ASP.NET Core web apps created with [dotnet new](/dotnet/core/tools/dotnet-new) o
 var builder = WebApplication.CreateBuilder(args);
 ```
 
-`CreateBuilder` provides default configuration for the app in the following order:
+[WebApplication.CreateBuilder](xref:Microsoft.AspNetCore.Builder.WebApplication.CreateBuilder%2A) initializes a new instance of the <xref:Microsoft.AspNetCore.Builder.WebApplicationBuilder> class with preconfigured defaults. The initialized `WebApplicationBuilder` (`builder`) provides default configuration for the app in the following order:
 
 1. [ChainedConfigurationProvider](xref:Microsoft.Extensions.Configuration.ChainedConfigurationSource) :  Adds an existing `IConfiguration` as a source. In the default configuration case, adds the [host](#hvac) configuration and setting it as the first source for the _app_ configuration.
 1. [appsettings.json](#appsettingsjson) using the [JSON configuration provider](#file-configuration-provider).
@@ -154,11 +154,11 @@ To test that the preceding commands override *appsettings.json* and *appsettings
 
 Call <xref:Microsoft.Extensions.Configuration.EnvironmentVariablesExtensions.AddEnvironmentVariables*> with a string to specify a prefix for environment variables:
 
-[!code-csharp[](~/fundamentals/configuration/index/samples/6.x/ConfigSample/Program.cs?name=snippet_env&highlight=3-4)]
+[!code-csharp[](~/fundamentals/configuration/index/samples/6.x/ConfigSample/Program.cs?name=snippet_env&highlight=5)]
 
 In the preceding code:
 
-* `config.AddEnvironmentVariables(prefix: "MyCustomPrefix_")` is added after the [default configuration providers](#default). For an example of ordering the configuration providers, see [JSON configuration provider](#jcp).
+* `builder.Configuration.AddEnvironmentVariables(prefix: "MyCustomPrefix_")` is added after the [default configuration providers](#default). For an example of ordering the configuration providers, see [JSON configuration provider](#jcp).
 * Environment variables set with the `MyCustomPrefix_` prefix override the [default configuration providers](#default). This includes environment variables without the prefix.
 
 The prefix is stripped off when the configuration key-value pairs are read.
@@ -212,13 +212,13 @@ Environment variable names reflect the structure of an *appsettings.json* file. 
 **environment variables**
 
 ```console
-setx SmtpServer=smtp.example.com
-setx Logging__0__Name=ToEmail
-setx Logging__0__Level=Critical
-setx Logging__0__Args__FromAddress=MySystem@example.com
-setx Logging__0__Args__ToAddress=SRE@example.com
-setx Logging__1__Name=ToConsole
-setx Logging__1__Level=Information
+setx SmtpServer smtp.example.com
+setx Logging__0__Name ToEmail
+setx Logging__0__Level Critical
+setx Logging__0__Args__FromAddress MySystem@example.com
+setx Logging__0__Args__ToAddress SRE@example.com
+setx Logging__1__Name ToConsole
+setx Logging__1__Level Information
 ```
 
 ### Environment variables set in generated launchSettings.json
@@ -326,7 +326,7 @@ For apps that use switch mappings, the call to `CreateDefaultBuilder` shouldn't 
 
 Environment and command-line arguments can be set in Visual Studio from the launch profiles dialog:
 
-* In Solution Explorer, right cick the project and select **Properties**.
+* In Solution Explorer, right click the project and select **Properties**.
 * Select the **Debug > General** tab and select **Open debug launch profiles UI**.
 
 ## Hierarchical configuration data
@@ -670,6 +670,8 @@ The following code reads the configuration and displays the values:
 
 [!code-csharp[](index/samples/6.x/ConfigSample/Pages/Array.cshtml.cs?name=snippet)]
 
+[!code-csharp[](index/samples/6.x/ConfigSample/Options/ArrayExample.cs?name=snippet)]
+
 The preceding code returns the following output:
 
 ```text
@@ -768,9 +770,17 @@ An `AddEFConfiguration` extension method permits adding the configuration source
 
 [!code-csharp[](index/samples/6.x/EfconfigSample/Extensions/EntityFrameworkExtensions.cs?name=snippet1)]
 
-The following code shows how to use the custom `EFConfigurationProvider` in *Program.cs*:
+The following code shows how to use the custom `EFConfigurationProvider` in `Program.cs`:
 
 [!code-csharp[](index/samples_snippets/6.x/EfconfigSample/Program.cs?highlight=5-6)]
+
+## Access configuration with Dependency Injection (DI)
+
+Configuration can be injected into services using [Dependency Injection (DI)](xref:fundamentals/dependency-injection) by resolving the <xref:Microsoft.Extensions.Configuration.IConfiguration> service:
+
+[!code-csharp[](index/samples/6.x/ConfigSample/Service.cs?name=snippet_Class&highlight=5-6)]
+
+For information on how to access values using `IConfiguration`, see [GetValue](#getvalue) and [GetSection, GetChildren, and Exists](#getsection-getchildren-and-exists) in this article.
 
 ## Access configuration in Razor Pages
 
@@ -849,12 +859,13 @@ An <xref:Microsoft.AspNetCore.Hosting.IHostingStartup> implementation allows add
 ## Additional resources
 
 * [Configuration source code](https://github.com/dotnet/runtime/tree/main/src/libraries/Microsoft.Extensions.Configuration)
+* [WebApplicationBuilder source code](https://github.com/dotnet/aspnetcore/blob/v6.0.1/src/DefaultBuilder/src/WebApplicationBuilder.cs)
 * <xref:fundamentals/configuration/options>
 * <xref:blazor/fundamentals/configuration>
 
-::: moniker-end
+:::moniker-end
 
-::: moniker range=">= aspnetcore-3.0 < aspnetcore-6.0"
+:::moniker range=">= aspnetcore-3.1 < aspnetcore-6.0"
 
 Configuration in ASP.NET Core is performed using one or more [configuration providers](#cp). Configuration providers read configuration data from key-value pairs using a variety of configuration sources:
 
@@ -1051,13 +1062,13 @@ Environment variable names reflect the structure of an *appsettings.json* file. 
 **environment variables**
 
 ```console
-setx SmtpServer=smtp.example.com
-setx Logging__0__Name=ToEmail
-setx Logging__0__Level=Critical
-setx Logging__0__Args__FromAddress=MySystem@example.com
-setx Logging__0__Args__ToAddress=SRE@example.com
-setx Logging__1__Name=ToConsole
-setx Logging__1__Level=Information
+setx SmtpServer smtp.example.com
+setx Logging__0__Name ToEmail
+setx Logging__0__Level Critical
+setx Logging__0__Args__FromAddress MySystem@example.com
+setx Logging__0__Args__ToAddress SRE@example.com
+setx Logging__1__Name ToConsole
+setx Logging__1__Level Information
 ```
 
 ### Environment variables set in generated launchSettings.json
@@ -1415,8 +1426,8 @@ In the preceding code, `config.AddInMemoryCollection(Dict)` is added after the [
 
 See [Bind an array](#boa) for another example using `MemoryConfigurationProvider`.
 
-::: moniker-end
-::: moniker range=">= aspnetcore-5.0 < aspnetcore-6.0"
+:::moniker-end
+:::moniker range=">= aspnetcore-5.0 < aspnetcore-6.0"
 
 <a name="kestrel"></a>
 
@@ -1444,12 +1455,12 @@ Consider the Kestrel specific endpoint configured as an environment variable:
 
 In the preceding environment variable, `Https` is the name of the Kestrel specific endpoint. The preceding *appsettings.json* file also defines a Kestrel specific endpoint named `Https`. By [default](#default-configuration), environment variables using the [Environment Variables configuration provider](#evcp) are read after *appsettings.*`Environment`*.json*, therefore, the preceding environment variable is used for the `Https` endpoint.
 
-::: moniker-end
-::: moniker range=">= aspnetcore-3.0 < aspnetcore-6.0"
+:::moniker-end
+:::moniker range=">= aspnetcore-3.0 < aspnetcore-6.0"
 
 ## GetValue
 
-[`ConfigurationBinder.GetValue<T>`](xref:Microsoft.Extensions.Configuration.ConfigurationBinder.GetValue*) extracts a single value from configuration with a specified key and converts it to the specified type:
+[`ConfigurationBinder.GetValue<T>`](xref:Microsoft.Extensions.Configuration.ConfigurationBinder.GetValue*) extracts a single value from configuration with a specified key and converts it to the specified type. This method is an extension method for <xref:Microsoft.Extensions.Configuration.IConfiguration>:
 
 [!code-csharp[](index/samples/3.x/ConfigSample/Pages/TestNum.cshtml.cs?name=snippet)]
 
@@ -1604,7 +1615,7 @@ An `AddEFConfiguration` extension method permits adding the configuration source
 
 [!code-csharp[](index/samples/3.x/ConfigurationSample/Extensions/EntityFrameworkExtensions.cs?name=snippet1)]
 
-The following code shows how to use the custom `EFConfigurationProvider` in *Program.cs*:
+The following code shows how to use the custom `EFConfigurationProvider` in `Program.cs`:
 
 [!code-csharp[](index/samples_snippets/3.x/ConfigurationSample/Program.cs?highlight=7-8)]
 
@@ -1700,4 +1711,4 @@ An <xref:Microsoft.AspNetCore.Hosting.IHostingStartup> implementation allows add
 * <xref:fundamentals/configuration/options>
 * <xref:blazor/fundamentals/configuration>
 
-::: moniker-end
+:::moniker-end

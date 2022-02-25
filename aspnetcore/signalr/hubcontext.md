@@ -6,7 +6,7 @@ monikerRange: '>= aspnetcore-2.1'
 ms.author: bradyg
 ms.custom: mvc
 ms.date: 11/12/2019
-no-loc: [Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR, IHubContext]
+no-loc: ["Blazor Hybrid", Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR, IHubContext]
 uid: signalr/hubcontext
 ---
 # Send messages from outside a hub
@@ -102,7 +102,7 @@ public class ChatController : Controller
 
 See [Strongly typed hubs](xref:signalr/hubs#strongly-typed-hubs) for more information.
 
-::: moniker range=">= aspnetcore-6.0"
+:::moniker range=">= aspnetcore-6.0"
 
 ### Use IHubContext in generic code
 
@@ -137,7 +137,7 @@ This is useful when:
 * Writing libraries that don't have a reference to the specific `Hub` type the app is using.
 * Writing code that is generic and can apply to multiple different `Hub` implementations
 
-::: moniker-end
+:::moniker-end
 
 ## Related resources
 

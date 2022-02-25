@@ -5,14 +5,14 @@ description: Explains how to create reusable Razor UI using partial views in a c
 ms.author: riande
 ms.date: 01/19/2021
 ms.custom: "mvc, seodec18"
-no-loc: [Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
+no-loc: ["Blazor Hybrid", Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
 uid: razor-pages/ui-class
 ---
 # Create reusable UI using the Razor class library project in ASP.NET Core
 
 By [Rick Anderson](https://twitter.com/RickAndMSFT)
 
-::: moniker range=">= aspnetcore-3.0 < aspnetcore-5.0"
+:::moniker range=">= aspnetcore-3.0 < aspnetcore-5.0"
 
 Razor views, pages, controllers, page models, [Razor components](xref:blazor/components/class-libraries), [View components](xref:mvc/views/view-components), and data models can be built into a Razor class library (RCL). The RCL can be packaged and reused. Applications can include the RCL and override the views and pages it contains. When a view, partial view, or Razor Page is found in both the web app and the RCL, the Razor markup (`.cshtml` file) in the web app takes precedence.
 
@@ -25,7 +25,7 @@ Razor views, pages, controllers, page models, [Razor components](xref:blazor/com
 * From Visual Studio select **Create a new project**.
 * Select **Razor Class Library** > **Next**.
 * Name the library (for example, "RazorClassLib"), > **Create** > **Next**. To avoid a file name collision with the generated view library, ensure the library name doesn't end in `.Views`.
-* Select the **Target Framework**. Check **☑ Support pages and views** to support views. By default, only Razor Pages are supported. Select **Create**.
+* Select the **Target Framework**. Check **☑ Support pages and views** to support views. By default, only Razor components are supported. Select **Create**.
 
 The Razor class library (RCL) template defaults to Razor component development by default. The **Support pages and views** option supports pages and views.
 
@@ -189,9 +189,9 @@ When the app is published, the companion assets from all referenced projects and
 
 * <xref:blazor/components/class-libraries>
 
-::: moniker-end
+:::moniker-end
 
-::: moniker range="< aspnetcore-3.0"
+:::moniker range="< aspnetcore-3.0"
 
 Razor views, pages, controllers, page models, [Razor components](xref:blazor/components/class-libraries), [View components](xref:mvc/views/view-components), and data models can be built into a Razor class library (RCL). The RCL can be packaged and reused. Applications can include the RCL and override the views and pages it contains. When a view, partial view, or Razor Page is found in both the web app and the RCL, the Razor markup (`.cshtml` file) in the web app takes precedence.
 
@@ -395,9 +395,9 @@ Suppose `RazorUIClassLib/Pages/Shared` contains two partial files: `_Header.csht
 </body>
 ```
 
-::: moniker-end
+:::moniker-end
 
-::: moniker range=">= aspnetcore-5.0"
+:::moniker range=">= aspnetcore-5.0"
 
 <!-- Start update here -->
 Razor views, pages, controllers, page models, [Razor components](xref:blazor/components/class-libraries), [View components](xref:mvc/views/view-components), and data models can be built into a Razor class library (RCL). The RCL can be packaged and reused. Applications can include the RCL and override the views and pages it contains. When a view, partial view, or Razor Page is found in both the web app and the RCL, the Razor markup (`.cshtml` file) in the web app takes precedence.
@@ -579,7 +579,7 @@ When the app is published, the companion assets from all referenced projects and
 
 ## Additional resources
 
-* <xref:blazor/components/class-libraries
+* <xref:blazor/components/class-libraries>
 * <xref:blazor/components/css-isolation#razor-class-library-rcl-support>
 
-::: moniker-end
+:::moniker-end

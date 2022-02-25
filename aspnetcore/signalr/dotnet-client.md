@@ -6,7 +6,7 @@ monikerRange: '>= aspnetcore-2.1'
 ms.author: bradyg
 ms.custom: mvc
 ms.date: 01/14/2020
-no-loc: [Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
+no-loc: ["Blazor Hybrid", Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
 uid: signalr/dotnet-client
 ---
 
@@ -48,7 +48,7 @@ To establish a connection, create a `HubConnectionBuilder` and call `Build`. The
 
 ## Handle lost connection
 
-::: moniker range=">= aspnetcore-3.0"
+:::moniker range=">= aspnetcore-3.0"
 
 ### Automatically reconnect
 
@@ -193,16 +193,16 @@ HubConnection connection = new HubConnectionBuilder()
 
 Alternatively, you can write code that will reconnect your client manually as demonstrated in [Manually reconnect](#manually-reconnect).
 
-::: moniker-end
+:::moniker-end
 
 ### Manually reconnect
 
-::: moniker range="< aspnetcore-3.0"
+:::moniker range="< aspnetcore-3.0"
 
 > [!WARNING]
 > Prior to 3.0, the .NET client for SignalR doesn't automatically reconnect. You must write code that will reconnect your client manually.
 
-::: moniker-end
+:::moniker-end
 
 Use the <xref:Microsoft.AspNetCore.SignalR.Client.HubConnection.Closed> event to respond to a lost connection. For example, you might want to automate reconnection.
 
@@ -243,6 +243,9 @@ Define methods the hub calls using `connection.On` after building, but before st
 The preceding code in `connection.On` runs when server-side code calls it using the `SendAsync` method.
 
 [!code-csharp[Call client method](dotnet-client/sample/signalrchat/hubs/chathub.cs?name=snippet_SendMessage)]
+
+> [!NOTE]
+> While the hub side of the connection supports strongly-typed messaging, the client must register using the generic method <xref:Microsoft.AspNetCore.SignalR.Client.HubConnection.On%2A?displayProperty=nameWithType> with the method name. For an example, see <xref:signalr/background-services#call-a-signalr-hub-from-a-background-service>.
 
 ## Error handling and logging
 

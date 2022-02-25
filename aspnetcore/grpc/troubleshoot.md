@@ -6,7 +6,7 @@ monikerRange: '>= aspnetcore-3.0'
 ms.author: jamesnk
 ms.custom: mvc
 ms.date: 07/09/2020
-no-loc: [Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
+no-loc: ["Blazor Hybrid", Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
 uid: grpc/troubleshoot
 ---
 # Troubleshoot gRPC on .NET Core
@@ -52,7 +52,7 @@ The .NET gRPC client requires the service to have a trusted certificate. The fol
 
 You may see this error if you are testing your app locally and the ASP.NET Core HTTPS development certificate is not trusted. For instructions to fix this issue, see [Trust the ASP.NET Core HTTPS development certificate on Windows and macOS](xref:security/enforcing-ssl#trust-the-aspnet-core-https-development-certificate-on-windows-and-macos).
 
-If you are calling a gRPC service on another machine and are unable to trust the certificate then the gRPC client can be configured to ignore the invalid certificate. The following code uses [HttpClientHandler.ServerCertificateCustomValidationCallback](/dotnet/api/system.net.http.httpclienthandler.servercertificatecustomvalidationcallback) to allow calls without a trusted certificate:
+If you are calling a gRPC service on another machine and are unable to trust the certificate then the gRPC client can be configured to ignore the invalid certificate. The following code uses <xref:System.Net.Http.HttpClientHandler.ServerCertificateCustomValidationCallback%2A?displayProperty=nameWithType> to allow calls without a trusted certificate:
 
 ```csharp
 var httpHandler = new HttpClientHandler();
@@ -76,7 +76,6 @@ There are some additional requirements to call insecure gRPC services depending 
 
 * .NET 5 or later requires [Grpc.Net.Client](https://www.nuget.org/packages/Grpc.Net.Client) version 2.32.0 or later.
 * .NET Core 3.x requires additional configuration. The app must set the `System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport` switch to `true`:
-    
     ```csharp
     // This switch must be set before creating the GrpcChannel/HttpClient.
     AppContext.SetSwitch(
@@ -89,6 +88,9 @@ There are some additional requirements to call insecure gRPC services depending 
 
 The `System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport` switch is only required for .NET Core 3.x. It does nothing in .NET 5 and isn't required.
 
+> [!IMPORTANT]
+> Insecure gRPC services must be hosted on a HTTP/2-only port. For more information, see [ASP.NET Core protocol negotiation](xref:grpc/aspnetcore#protocol-negotiation).
+
 ## Unable to start ASP.NET Core gRPC app on macOS
 
 Kestrel doesn't support HTTP/2 with TLS on macOS and older Windows versions such as Windows 7. The ASP.NET Core gRPC template and samples use TLS by default. You'll see the following error message when you attempt to start the gRPC server:
@@ -97,7 +99,7 @@ Kestrel doesn't support HTTP/2 with TLS on macOS and older Windows versions such
 
 To work around this issue, configure Kestrel and the gRPC client to use HTTP/2 *without* TLS. You should only do this during development. Not using TLS will result in gRPC messages being sent without encryption.
 
-Kestrel must configure an HTTP/2 endpoint without TLS in *Program.cs*:
+Kestrel must configure an HTTP/2 endpoint without TLS in `Program.cs`:
 
 ```csharp
 public static IHostBuilder CreateHostBuilder(string[] args) =>
@@ -114,24 +116,24 @@ public static IHostBuilder CreateHostBuilder(string[] args) =>
         });
 ```
 
-::: moniker range=">= aspnetcore-5.0"
+:::moniker range=">= aspnetcore-5.0"
 When an HTTP/2 endpoint is configured without TLS, the endpoint's [ListenOptions.Protocols](xref:fundamentals/servers/kestrel/endpoints#listenoptionsprotocols) must be set to `HttpProtocols.Http2`. `HttpProtocols.Http1AndHttp2` can't be used because TLS is required to negotiate HTTP/2. Without TLS, all connections to the endpoint default to HTTP/1.1, and gRPC calls fail.
-::: moniker-end
+:::moniker-end
 
-::: moniker range="< aspnetcore-5.0"
+:::moniker range="< aspnetcore-5.0"
 When an HTTP/2 endpoint is configured without TLS, the endpoint's [ListenOptions.Protocols](xref:fundamentals/servers/kestrel#listenoptionsprotocols) must be set to `HttpProtocols.Http2`. `HttpProtocols.Http1AndHttp2` can't be used because TLS is required to negotiate HTTP/2. Without TLS, all connections to the endpoint default to HTTP/1.1, and gRPC calls fail.
-::: moniker-end
+:::moniker-end
 
 The gRPC client must also be configured to not use TLS. For more information, see [Call insecure gRPC services with .NET Core client](#call-insecure-grpc-services-with-net-core-client).
 
 > [!WARNING]
 > HTTP/2 without TLS should only be used during app development. Production apps should always use transport security. For more information, see [Security considerations in gRPC for ASP.NET Core](xref:grpc/security#transport-security).
 
-## gRPC C# assets are not code generated from .proto files
+## gRPC C# assets are not code generated from `.proto` files
 
 gRPC code generation of concrete clients and service base classes requires protobuf files and tooling to be referenced from a project. You must include:
 
-* *.proto* files you want to use in the `<Protobuf>` item group. [Imported *.proto* files](https://developers.google.com/protocol-buffers/docs/proto3#importing-definitions) must be referenced by the project.
+* `.proto` files you want to use in the `<Protobuf>` item group. [Imported `.proto` files](https://developers.google.com/protocol-buffers/docs/proto3#importing-definitions) must be referenced by the project.
 * Package reference to the gRPC tooling package [Grpc.Tools](https://www.nuget.org/packages/Grpc.Tools/).
 
 For more information on generating gRPC C# assets, see <xref:grpc/basics>.
@@ -152,21 +154,21 @@ A gRPC client app making gRPC calls only needs the concrete client generated:
 </ItemGroup>
 ```
 
-## WPF projects unable to generate gRPC C# assets from .proto files
+## WPF projects unable to generate gRPC C# assets from `.proto` files
 
-WPF projects have a [known issue](https://github.com/dotnet/wpf/issues/810) that prevents gRPC code generation from working correctly. Any gRPC types generated in a WPF project by referencing `Grpc.Tools` and *.proto* files will create compilation errors when used:
+WPF projects have a [known issue](https://github.com/dotnet/wpf/issues/810) that prevents gRPC code generation from working correctly. Any gRPC types generated in a WPF project by referencing `Grpc.Tools` and `.proto` files will create compilation errors when used:
 
 > error CS0246: The type or namespace name 'MyGrpcServices' could not be found (are you missing a using directive or an assembly reference?)
 
 You can workaround this issue by:
 
 1. Create a new .NET Core class library project.
-2. In the new project, add references to enable [C# code generation from *\*.proto* files](xref:grpc/basics#generated-c-assets):
+2. In the new project, add references to enable [C# code generation from `.proto` files](xref:grpc/basics#generated-c-assets):
     * Add the following package references:
         * [Grpc.Tools](https://www.nuget.org/packages/Grpc.Tools/)
         * [Grpc.Net.Client](https://www.nuget.org/packages/Grpc.Net.Client/)
         * [Google.Protobuf](https://www.nuget.org/packages/Google.Protobuf/)
-    * Add *\*.proto* files to the `<Protobuf>` item group.
+    * Add `.proto` files to the `<Protobuf>` item group.
 3. In the WPF application, add a reference to the new project.
 
 The WPF application can use the gRPC generated types from the new class library project.
@@ -221,5 +223,60 @@ The preceding code:
 * Creates a `SubdirectoryHandler` with the path `/MyApp`.
 * Configures a channel to use `SubdirectoryHandler`.
 * Calls the gRPC service with `SayHelloAsync`. The gRPC call is sent to `https://localhost:5001/MyApp/greet.Greeter/SayHello`.
+
+Alternatively, a client factory can be configured with `SubdirectoryHandler` by using <xref:Microsoft.Extensions.DependencyInjection.HttpClientBuilderExtensions.AddHttpMessageHandler%2A>.
+
+:::moniker range=">= aspnetcore-6.0"
+
+## Configure gRPC client to use HTTP/3
+
+The .NET gRPC client supports HTTP/3 with .NET 6 or later. If the server sends an `alt-svc` response header to the client that indicates the server supports HTTP/3, the client will automatically upgrade its connection to HTTP/3. For information about how to enable HTTP/3 on the server, see <xref:fundamentals/servers/kestrel/http3>.
+
+HTTP/3 support is in preview in .NET 6, and needs to be enabled via a configuration flag in the project file:
+
+```xml
+<ItemGroup>
+  <RuntimeHostConfigurationOption Include="System.Net.SocketsHttpHandler.Http3Support" Value="true" />
+</ItemGroup>
+```
+
+`System.Net.SocketsHttpHandler.Http3Support` can also be set using [AppContext.SetSwitch](xref:System.AppContext.SetSwitch%2A).
+
+A <xref:System.Net.Http.DelegatingHandler> can bee used to force a gRPC client to use HTTP/3. Forcing HTTP/3 avoids the overhead of upgrading the request. Force HTTP/3 with code similar to the following:
+
+```csharp
+/// <summary>
+/// A delegating handler that changes the request HTTP version to HTTP/3.
+/// </summary>
+public class Http3Handler : DelegatingHandler
+{
+    public Http3Handler() { }
+    public Http3Handler(HttpMessageHandler innerHandler) : base(innerHandler) { }
+
+    protected override Task<HttpResponseMessage> SendAsync(
+        HttpRequestMessage request, CancellationToken cancellationToken)
+    {
+        request.Version = HttpVersion.Version30;
+        request.VersionPolicy = HttpVersionPolicy.RequestVersionExact;
+
+        return base.SendAsync(request, cancellationToken);
+    }
+}
+```
+
+`Http3Handler` is used when the gRPC channel is created. The following code creates a channel configured to use `Http3Handler`.
+
+```csharp
+var handler = new Http3Handler(new HttpClientHandler());
+
+var channel = GrpcChannel.ForAddress("https://localhost:5001", new GrpcChannelOptions { HttpHandler = handler });
+var client = new Greet.GreeterClient(channel);
+
+var reply = await client.SayHelloAsync(new HelloRequest { Name = ".NET" });
+```
+
+Alternatively, a client factory can be configured with `Http3Handler` by using <xref:Microsoft.Extensions.DependencyInjection.HttpClientBuilderExtensions.AddHttpMessageHandler%2A>.
+
+:::moniker-end
 
 [!INCLUDE[](~/includes/gRPCazure.md)]

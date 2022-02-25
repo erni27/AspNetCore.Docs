@@ -5,7 +5,7 @@ description: Learn the best practices for building high-performance gRPC service
 monikerRange: '>= aspnetcore-3.0'
 ms.author: jamesnk
 ms.date: 08/23/2020
-no-loc: [Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
+no-loc: ["Blazor Hybrid", Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
 uid: grpc/performance
 ---
 # Performance best practices with gRPC
@@ -41,7 +41,7 @@ HTTP/2 connections typically have a limit on the number of [maximum concurrent s
 
 A gRPC channel uses a single HTTP/2 connection, and concurrent calls are multiplexed on that connection. When the number of active calls reaches the connection stream limit, additional calls are queued in the client. Queued calls wait for active calls to complete before they are sent. Applications with high load, or long running streaming gRPC calls, could see performance issues caused by calls queuing because of this limit.
 
-::: moniker range=">= aspnetcore-5.0"
+:::moniker range=">= aspnetcore-5.0"
 
 .NET 5 introduces the `SocketsHttpHandler.EnableMultipleHttp2Connections` property. When set to `true`, additional HTTP/2 connections are created by a channel when the concurrent stream limit is reached. When a `GrpcChannel` is created its internal `SocketsHttpHandler` is automatically configured to create additional HTTP/2 connections. If an app configures its own handler, consider setting `EnableMultipleHttp2Connections` to `true`:
 
@@ -57,7 +57,7 @@ var channel = GrpcChannel.ForAddress("https://localhost", new GrpcChannelOptions
 });
 ```
 
-::: moniker-end
+:::moniker-end
 
 There are a couple of workarounds for .NET Core 3.1 apps:
 
@@ -92,7 +92,7 @@ With client-side load balancing, the client knows about endpoints. For each gRPC
 
 Lookaside client load balancing is a technique where load balancing state is stored in a central location. Clients periodically query the central location for information to use when making load balancing decisions.
 
-`Grpc.Net.Client` currently doesn't support client-side load balancing. [Grpc.Core](https://www.nuget.org/packages/Grpc.Core) is a good choice if client-side load balancing is required in .NET.
+For more information, see <xref:grpc/loadbalancing>.
 
 ### Proxy load balancing
 
@@ -104,7 +104,7 @@ There are many L7 proxies available. Some options are:
 * [Linkerd](https://linkerd.io/) - Service mesh for Kubernetes.
 * [YARP: A Reverse Proxy](https://microsoft.github.io/reverse-proxy/) - A preview open source proxy written in .NET.
 
-::: moniker range=">= aspnetcore-5.0"
+:::moniker range=">= aspnetcore-5.0"
 
 ## Inter-process communication
 
@@ -135,7 +135,7 @@ var channel = GrpcChannel.ForAddress("https://localhost:5001", new GrpcChannelOp
 
 The preceding code configures a channel that sends a keep alive ping to the server every 60 seconds during periods of inactivity. The ping ensures the server and any proxies in use won't close the connection because of inactivity.
 
-::: moniker-end
+:::moniker-end
 
 ## Streaming
 
@@ -264,3 +264,22 @@ The preceding code:
 * Attempts to get an array from `ByteString.Memory` with <xref:System.Runtime.InteropServices.MemoryMarshal.TryGetArray%2A?displayProperty=nameWithType>.
 * Uses the `ArraySegment<byte>` if it was successfully retrieved. The segment has a reference to the array, offset and count.
 * Otherwise, falls back to allocating a new array with `ByteString.ToByteArray()`.
+
+### gRPC services and large binary payloads
+
+gRPC and Protobuf can send and receive large binary payloads. Although binary Protobuf is more efficient than text-based JSON at serializing binary payloads, there are still important performance characteristics to keep in mind when working with large binary payloads.
+
+gRPC is a message-based RPC framework, which means:
+
+* The entire message is loaded into memory before gRPC can send it.
+* When the message is received, the entire message is deserialized into memory.
+
+Binary payloads are allocated as a byte array. For example, a 10 MB binary payload allocates a 10 MB byte array. Messages with large binary payloads can allocate byte arrays on the [large object heap](/dotnet/standard/garbage-collection/large-object-heap). Large allocations impact server performance and scalability.
+
+Advice for creating high-performance applications with large binary payloads:
+
+* **Avoid** large binary payloads in gRPC messages. A byte array larger than 85,000 bytes is considered a large object. Keeping below that size avoids allocating on the large object heap.
+* **Consider** splitting large binary payloads [using gRPC streaming](xref:grpc/client#client-streaming-call). Binary data is chunked and streamed over multiple messages. For more information on how to stream files, see an [example of gRPC streaming file upload](https://github.com/grpc/grpc-dotnet/tree/master/examples#uploader) at the grpc-dotnet repository.
+* **Consider** not using gRPC for large binary data. In ASP.NET Core, Web APIs can be used alongside gRPC services. An HTTP endpoint can access the request and response stream body directly:
+  * [Read the request body using minimal web API](xref:fundamentals/minimal-apis#read-the-request-body)
+  * [Return stream response using minimal web API](xref:fundamentals/minimal-apis#stream)

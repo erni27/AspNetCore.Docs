@@ -5,13 +5,13 @@ description: Discover how components can be included in Blazor apps from an exte
 monikerRange: '>= aspnetcore-3.1'
 ms.author: riande
 ms.custom: mvc
-ms.date: 04/07/2021
-no-loc: [Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
+ms.date: 11/09/2021
+no-loc: ["Blazor Hybrid", Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
 uid: blazor/components/class-libraries
 ---
 # Consume ASP.NET Core Razor components from Razor class libraries
 
-::: moniker range=">= aspnetcore-6.0"
+:::moniker range=">= aspnetcore-6.0"
 
 Components can be shared in a [Razor class library (RCL)](xref:razor-pages/ui-class) across projects. Include components and static assets in an app from:
 
@@ -170,7 +170,13 @@ Alternatively, add a [`@using`](xref:mvc/views/razor#using) directive and use th
 <Component1 />
 ```
 
-For library components that use [CSS isolation](xref:blazor/components/css-isolation), the component styles are automatically made available to the consuming app. There's no need to link the library's individual component stylesheets in the app that consumes the library. For the preceding examples, `Component1`'s stylesheet (`Component1.razor.css`) is included automatically.
+For library components that use [CSS isolation](xref:blazor/components/css-isolation), the component styles are automatically made available to the consuming app. There's no need to manually link or import the library's individual component stylesheets or its bundled CSS file in the app that consumes the library. The app uses CSS imports to reference the RCL's bundled styles. The bundled styles aren't published as a static web asset of the app that consumes the library. For a class library named `ClassLib` and a Blazor app with a `BlazorSample.styles.css` stylesheet, the RCL's stylesheet is imported at the top of the app's stylesheet automatically at build time:
+  
+```css
+@import '_content/ClassLib/ClassLib.bundle.scp.css';
+```
+
+For the preceding examples, `Component1`'s stylesheet (`Component1.razor.css`) is bundled automatically.
 
 `Component1.razor.css` in the `ComponentLibrary` RCL:
 
@@ -189,7 +195,7 @@ The background image is also included from the RCL project template and resides 
 
 ![Diagonally-striped background image from the RCL project template](~/blazor/components/class-libraries/_static/background.png)
 
-To provide additional library component styles from stylesheets in the library's `wwwroot` folder, link the stylesheets using the framework's `Link` component.
+To provide additional library component styles from stylesheets in the library's `wwwroot` folder, add stylesheet `<link>` tags with a [`HeadContent` component](xref:blazor/components/control-head-content).
 
 The following background image is used in the next example. If you implement the example shown in this section, right-click the image to save it locally.
 
@@ -215,7 +221,9 @@ Add a component to the RCL that uses the `extra-style` class.
 `ExtraStyles.razor` in the `ComponentLibrary` RCL:
 
 ```razor
-<Link href="_content/ComponentLibrary/additionalStyles.css" rel="stylesheet" />
+<HeadContent>
+    <link href="_content/ComponentLibrary/additionalStyles.css" rel="stylesheet" />
+</HeadContent>
 
 <div class="extra-style">
     <p>
@@ -237,9 +245,9 @@ Add a page to the app that uses the `ExtraStyles` component from the RCL.
 <ExtraStyles />
 ```
 
-When the `Link` component is used in a child component, the linked asset is also available to any other child component of the parent component if the child with the `Link` component is rendered.
+When the `HeadContent` component is used in a child component, the linked asset is also available to any other child component of the parent component if the child with the `HeadContent` component is rendered.
 
-An alternative to using the `Link` component is to link to the library's stylesheet in the app's `<head>` markup.
+An alternative to using the `HeadContent` component is to link to the library's stylesheet in the app's `<head>` markup.
 
 `wwwroot/index.html` file (Blazor WebAssembly) or `Pages/_Layout.cshtml` file (Blazor Server):
 
@@ -247,7 +255,7 @@ An alternative to using the `Link` component is to link to the library's stylesh
 + <link href="_content/ComponentLibrary/additionalStyles.css" rel="stylesheet" />
 ```
 
-The distinction between using the `Link` component in a child component and placing a `<link>` HTML tag in `wwwroot/index.html` or `Pages/_Host.cshtml` is that a framework component's rendered HTML tag:
+The distinction between using the `HeadContent` component in a child component and placing a `<link>` HTML tag in `wwwroot/index.html` or `Pages/_Host.cshtml` is that a framework component's rendered HTML tag:
 
 * Can be modified by application state. A hard-coded `<link>` HTML tag can't be modified by application state.
 * Is removed from the HTML `<head>` when the parent component is no longer rendered.
@@ -334,6 +342,10 @@ Blazor WebAssembly and RCL projects *automatically* enable browser compatibility
 When authoring a library, indicate that a particular API isn't supported in browsers by specifying `browser` to <xref:System.Runtime.Versioning.UnsupportedOSPlatformAttribute>:
 
 ```csharp
+using System.Runtime.Versioning;
+
+...
+
 [UnsupportedOSPlatform("browser")]
 private static string GetLoggingDirectory()
 {
@@ -372,9 +384,9 @@ Upload the package to NuGet using the [`dotnet nuget push`](/dotnet/core/tools/d
 * [Add an XML Intermediate Language (IL) Trimmer configuration file to a library](xref:blazor/host-and-deploy/configure-trimmer)
 * [CSS isolation support with Razor class libraries](xref:blazor/components/css-isolation#razor-class-library-rcl-support)
 
-::: moniker-end
+:::moniker-end
 
-::: moniker range=">= aspnetcore-5.0 < aspnetcore-6.0"
+:::moniker range=">= aspnetcore-5.0 < aspnetcore-6.0"
 
 Components can be shared in a [Razor class library (RCL)](xref:razor-pages/ui-class) across projects. Include components and static assets in an app from:
 
@@ -521,7 +533,13 @@ Alternatively, add a [`@using`](xref:mvc/views/razor#using) directive and use th
 <Component1 />
 ```
 
-For library components that use [CSS isolation](xref:blazor/components/css-isolation), the component styles are automatically made available to the consuming app. There's no need to link the library's individual component stylesheets in the app that consumes the library. For the preceding examples, `Component1`'s stylesheet (`Component1.razor.css`) is included automatically.
+For library components that use [CSS isolation](xref:blazor/components/css-isolation), the component styles are automatically made available to the consuming app. There's no need to manually link or import the library's individual component stylesheets or its bundled CSS file in the app that consumes the library. The app uses CSS imports to reference the RCL's bundled styles. The bundled styles aren't published as a static web asset of the app that consumes the library. For a class library named `ClassLib` and a Blazor app with a `BlazorSample.styles.css` stylesheet, the RCL's stylesheet is imported at the top of the app's stylesheet automatically at build time:
+  
+```css
+@import '_content/ClassLib/ClassLib.bundle.scp.css';
+```
+
+For the preceding examples, `Component1`'s stylesheet (`Component1.razor.css`) is bundled automatically.
 
 `Component1.razor.css` in the `ComponentLibrary` RCL:
 
@@ -656,9 +674,9 @@ Upload the package to NuGet using the [`dotnet nuget push`](/dotnet/core/tools/d
 * [Add an XML Intermediate Language (IL) Trimmer configuration file to a library](xref:blazor/host-and-deploy/configure-trimmer)
 * [CSS isolation support with Razor class libraries](xref:blazor/components/css-isolation#razor-class-library-rcl-support)
 
-::: moniker-end
+:::moniker-end
 
-::: moniker range="< aspnetcore-5.0"
+:::moniker range="< aspnetcore-5.0"
 
 Components can be shared in a [Razor class library (RCL)](xref:razor-pages/ui-class) across projects. Include components and static assets in an app from:
 
@@ -888,4 +906,4 @@ Upload the package to NuGet using the [`dotnet nuget push`](/dotnet/core/tools/d
 * <xref:razor-pages/ui-class>
 * [Add an XML Intermediate Language (IL) Linker configuration file to a library](xref:blazor/host-and-deploy/configure-linker#add-an-xml-linker-configuration-file-to-a-library)
 
-::: moniker-end
+:::moniker-end

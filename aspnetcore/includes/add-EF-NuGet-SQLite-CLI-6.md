@@ -1,17 +1,17 @@
 ---
-no-loc: [Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
+no-loc: ["Blazor Hybrid", Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
 ---
 Run the following .NET CLI commands:
 
 ```dotnetcli
-dotnet tool uninstall -g dotnet-aspnet-codegenerator
-dotnet tool install -g dotnet-aspnet-codegenerator --version 6.0.0-preview.7.21413.1
-dotnet tool uninstall -g dotnet-ef
-dotnet tool install --global dotnet-ef --version 6.0.0-preview.1.21112.2
-dotnet add package Microsoft.EntityFrameworkCore.Design --prerelease
-dotnet add package Microsoft.EntityFrameworkCore.SQLite --prerelease
-dotnet add package Microsoft.VisualStudio.Web.CodeGeneration.Design --prerelease
-dotnet add package Microsoft.EntityFrameworkCore.SqlServer --prerelease
+dotnet tool uninstall --global dotnet-aspnet-codegenerator
+dotnet tool install --global dotnet-aspnet-codegenerator
+dotnet tool uninstall --global dotnet-ef
+dotnet tool install --global dotnet-ef
+dotnet add package Microsoft.EntityFrameworkCore.Design
+dotnet add package Microsoft.EntityFrameworkCore.SQLite
+dotnet add package Microsoft.VisualStudio.Web.CodeGeneration.Design
+dotnet add package Microsoft.EntityFrameworkCore.SqlServer
 ```
 
 The preceding commands add:

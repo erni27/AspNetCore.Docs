@@ -4,12 +4,12 @@ author: wadepickett
 description: Learn how to start migrating an ASP.NET MVC project to ASP.NET Core MVC.
 ms.author: wpickett
 ms.date: 06/18/2020
-no-loc: [Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
+no-loc: ["Blazor Hybrid", Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
 uid: migration/mvc
 ---
 # Migrate from ASP.NET MVC to ASP.NET Core MVC
 
-::: moniker range=">= aspnetcore-3.0"
+:::moniker range=">= aspnetcore-3.0"
 
 This article shows how to start migrating an ASP.NET MVC project to [ASP.NET Core MVC](xref:mvc/overview). In the process, it highlights related changes from ASP.NET MVC.
 
@@ -175,9 +175,9 @@ ASP.NET Core converts unhandled exceptions into HTTP 500 error responses. Normal
 * <xref:blazor/index>
 * <xref:mvc/views/tag-helpers/intro>
 
-::: moniker-end
+:::moniker-end
 
-::: moniker range="= aspnetcore-2.2"
+:::moniker range="= aspnetcore-2.2"
 
 This article shows how to start migrating an ASP.NET MVC project to [ASP.NET Core MVC](xref:mvc/overview) 2.2. In the process, it highlights many of the things that have changed from ASP.NET MVC. Migrating from ASP.NET MVC is a multi-step process. This article covers:
 
@@ -361,9 +361,9 @@ ASP.NET Core converts unhandled exceptions into HTTP 500 error responses. Normal
 * <xref:blazor/index>
 * <xref:mvc/views/tag-helpers/intro>
 
-::: moniker-end
+:::moniker-end
 
-::: moniker range="<= aspnetcore-2.1"
+:::moniker range="<= aspnetcore-2.1"
 
 This article shows how to start migrating an ASP.NET MVC project to [ASP.NET Core MVC](xref:mvc/overview) 2.1. In the process, it highlights many of the things that have changed from ASP.NET MVC. Migrating from ASP.NET MVC is a multi-step process. This article covers:
 
@@ -547,4 +547,4 @@ ASP.NET Core converts unhandled exceptions into HTTP 500 error responses. Normal
 * <xref:blazor/index>
 * <xref:mvc/views/tag-helpers/intro>
 
-::: moniker-end
+:::moniker-end

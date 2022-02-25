@@ -5,7 +5,7 @@ description: Learn how to use ASP.NET Core APIs in a class library.
 ms.author: scaddie
 ms.custom: mvc
 ms.date: 12/16/2019
-no-loc: [Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
+no-loc: ["Blazor Hybrid", Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
 uid: fundamentals/target-aspnetcore
 ---
 # Use ASP.NET Core APIs in a class library
@@ -33,10 +33,6 @@ To reference ASP.NET Core, add the following `<FrameworkReference>` element to y
 
 [!code-xml[](target-aspnetcore/samples/single-tfm/netcoreapp3.1-basic-library.csproj?highlight=8)]
 
-Referencing ASP.NET Core in this manner is only supported for projects targeting .NET Core 3.x.
-
-For information on using ASP.NET Core 5.0 and later APIs in a class library, see [this GitHub issue](https://github.com/dotnet/AspNetCore.Docs/issues/22048).
-
 ## Include Blazor extensibility
 
 Blazor supports WebAssembly (WASM) and server-based [hosting models](xref:blazor/hosting-models). Unless there's a specific reason not to support both hosting models, a [Razor components](xref:blazor/components/index) library should support both hosting models. A Razor components library must use the [Microsoft.NET.Sdk.Razor SDK](xref:razor-pages/sdk).
@@ -63,12 +59,12 @@ Use the **Razor Class Library** project template.
 
 ---
 
-::: moniker range=">= aspnetcore-5.0"
+:::moniker range=">= aspnetcore-5.0"
 
 The library generated from the project template:
 
 * Targets the current .NET framework based on the installed SDK.
-* Enables browser compatibilty checks for platform dependencies by including `browser` as a supported platform with the `SupportedPlatform` MSBuild item.
+* Enables browser compatibility checks for platform dependencies by including `browser` as a supported platform with the `SupportedPlatform` MSBuild item.
 * Adds a NuGet package reference for [Microsoft.AspNetCore.Components.Web](https://www.nuget.org/packages/Microsoft.AspNetCore.Components.Web).
 
 Example:
@@ -145,9 +141,9 @@ In the preceding example:
 * The `{TARGET FRAMEWORKS}` placeholder represents the semicolon-separated TFMs list. For example, `netcoreapp3.1;net5.0`.
 * The `{VERSION}` placeholder is the version of the [`Microsoft.AspNetCore.Components.Web`](https://www.nuget.org/packages/Microsoft.AspNetCore.Components.Web) package.
 
-::: moniker-end
+:::moniker-end
 
-::: moniker range="< aspnetcore-5.0"
+:::moniker range="< aspnetcore-5.0"
 
 The project generated from the template:
 
@@ -172,7 +168,7 @@ For example:
 
 [!code-xml[](target-aspnetcore/samples/single-tfm/netcoreapp3.1-razor-components-library.csproj)]
 
-::: moniker-end
+:::moniker-end
 
 For more information on libraries containing Razor components, see <xref:blazor/components/class-libraries>.
 

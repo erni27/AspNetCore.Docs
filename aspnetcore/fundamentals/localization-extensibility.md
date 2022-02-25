@@ -6,7 +6,7 @@ monikerRange: '>= aspnetcore-2.1'
 ms.author: riande
 ms.custom: mvc
 ms.date: 08/03/2019
-no-loc: [Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
+no-loc: ["Blazor Hybrid", Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
 uid: fundamentals/localization-extensibility
 ---
 # Localization Extensibility
@@ -42,7 +42,7 @@ The preceding providers are described in detail in the [Localization Middleware]
 
 <xref:Microsoft.AspNetCore.Localization.CustomRequestCultureProvider> provides a custom <xref:Microsoft.AspNetCore.Localization.RequestCultureProvider> that uses a simple delegate to determine the current localization culture:
 
-::: moniker range=">= aspnetcore-3.0"
+:::moniker range=">= aspnetcore-3.0"
 
 ```csharp
 options.AddInitialRequestCultureProvider(new CustomRequestCultureProvider(async context =>
@@ -62,9 +62,9 @@ options.AddInitialRequestCultureProvider(new CustomRequestCultureProvider(async 
 }));
 ```
 
-::: moniker-end
+:::moniker-end
 
-::: moniker range="< aspnetcore-3.0"
+:::moniker range="< aspnetcore-3.0"
 
 ```csharp
 options.RequestCultureProviders.Insert(0, new CustomRequestCultureProvider(async context =>
@@ -84,7 +84,7 @@ options.RequestCultureProviders.Insert(0, new CustomRequestCultureProvider(async
 }));
 ```
 
-::: moniker-end
+:::moniker-end
 
 ### Use a new implemetation of RequestCultureProvider
 
@@ -134,7 +134,7 @@ public class AppSettingsRequestCultureProvider : RequestCultureProvider
 
 ## Localization resources
 
-ASP.NET Core localization provides <xref:Microsoft.Extensions.Localization.ResourceManagerStringLocalizer>. <xref:Microsoft.Extensions.Localization.ResourceManagerStringLocalizer> is an implementation of <xref:Microsoft.Extensions.Localization.IStringLocalizer> that is uses `resx` to store localization resources.
+ASP.NET Core localization provides <xref:Microsoft.Extensions.Localization.ResourceManagerStringLocalizer>. <xref:Microsoft.Extensions.Localization.ResourceManagerStringLocalizer> is an implementation of <xref:Microsoft.Extensions.Localization.IStringLocalizer> that uses `resx` to store localization resources.
 
 You aren't limited to using `resx` files. By implementing `IStringLocalizer`, any data source can be used.
 

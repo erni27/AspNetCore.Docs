@@ -1,11 +1,11 @@
 ---
 title: Migrate from ASP.NET to ASP.NET Core 2.0
-author: isaac2004
+author: isaacrlevin
 description: Receive guidance for migrating existing ASP.NET MVC or Web API applications to ASP.NET Core 2.0.
 ms.author: scaddie
 ms.custom: mvc
 ms.date: 10/24/2018
-no-loc: [Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
+no-loc: ["Blazor Hybrid", Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
 uid: migration/mvc2
 ---
 # Migrate from ASP.NET to ASP.NET Core 2.0
@@ -61,7 +61,7 @@ This approach couples the application and the server to which it's deployed in a
 
 This configures your default routes, and defaults to XmlSerialization over Json. Add other Middleware to this pipeline as needed (loading services, configuration settings, static files, etc.).
 
-ASP.NET Core uses a similar approach, but doesn't rely on OWIN to handle the entry. Instead, that's done through the *Program.cs* `Main` method (similar to console applications) and `Startup` is loaded through there.
+ASP.NET Core uses a similar approach, but doesn't rely on OWIN to handle the entry. Instead, that's done through the `Program.cs` `Main` method (similar to console applications) and `Startup` is loaded through there.
 
 [!code-csharp[](samples/program.cs)]
 

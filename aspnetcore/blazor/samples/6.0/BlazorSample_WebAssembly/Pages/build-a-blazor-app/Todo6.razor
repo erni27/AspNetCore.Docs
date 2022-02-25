@@ -1,5 +1,7 @@
 @page "/todo"
 
+<PageTitle>Todo</PageTitle>
+
 <h1>Todo</h1>
 
 <ul>
@@ -14,7 +16,7 @@
 
 @code {
     private List<TodoItem> todos = new();
-    private string newTodo;
+    private string? newTodo;
 
     private void AddTodo()
     {

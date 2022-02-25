@@ -6,7 +6,7 @@ monikerRange: '>= aspnetcore-2.1'
 ms.author: bradyg
 ms.custom: mvc
 ms.date: 01/16/2020
-no-loc: [Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
+no-loc: ["Blazor Hybrid", Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
 uid: signalr/hubs
 ---
 
@@ -26,7 +26,7 @@ The SignalR middleware requires some services, which are configured by calling `
 
 [!code-csharp[Configure service](hubs/sample/startup.cs?range=38)]
 
-::: moniker range=">= aspnetcore-3.0"
+:::moniker range=">= aspnetcore-3.0"
 
 When adding SignalR functionality to an ASP.NET Core app, setup SignalR routes by calling `endpoint.MapHub` in the `Startup.Configure` method's `app.UseEndpoints` callback.
 
@@ -38,15 +38,15 @@ app.UseEndpoints(endpoints =>
 });
 ```
 
-::: moniker-end
+:::moniker-end
 
-::: moniker range="<= aspnetcore-2.2"
+:::moniker range="<= aspnetcore-2.2"
 
 When adding SignalR functionality to an ASP.NET Core app, setup SignalR routes by calling `app.UseSignalR` in the `Startup.Configure` method.
 
 [!code-csharp[Configure routes to hubs](hubs/sample/startup.cs?range=57-60)]
 
-::: moniker-end
+:::moniker-end
 
 ## Create and use hubs
 

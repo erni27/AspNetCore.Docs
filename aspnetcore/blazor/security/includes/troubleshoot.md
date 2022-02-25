@@ -1,5 +1,5 @@
 ---
-no-loc: [Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
+no-loc: ["Blazor Hybrid", Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
 ---
 ## Troubleshoot
 
@@ -27,11 +27,13 @@ no-loc: [Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cook
 
   * Decode the contents of a JSON Web Token (JWT) used for authenticating a client or accessing a server web API, depending on where the problem is occurring. For more information, see [Inspect the content of a JSON Web Token (JWT)](#inspect-the-content-of-a-json-web-token-jwt).
   
-  The documenation team responds to document feedback and bugs in articles (open an issue from the **This page** feedback section) but is unable to provide product support. Several public support forums are available to assist with troubleshooting an app. We recommend the following:
+  The documentation team responds to document feedback and bugs in articles (open an issue from the **This page** feedback section) but is unable to provide product support. Several public support forums are available to assist with troubleshooting an app. We recommend the following:
   
   * [Stack Overflow (tag: `blazor`)](https://stackoverflow.com/questions/tagged/blazor)
   * [ASP.NET Core Slack Team](http://tattoocoder.com/aspnet-slack-sign-up/)
   * [Blazor Gitter](https://gitter.im/aspnet/Blazor)
+  
+  *The preceding forums are not owned or controlled by Microsoft.*
   
   For non-security, non-sensitive, and non-confidential reproducible framework bug reports, [open an issue with the ASP.NET Core product unit](https://github.com/dotnet/aspnetcore/issues). Don't open an issue with the product unit until you've thoroughly investigated the cause of a problem and can't resolve it on your own and with the help of the community on a public support forum. The product unit isn't able to troubleshoot individual apps that are broken due to simple misconfiguration or use cases involving third-party services. If a report is sensitive or confidential in nature or describes a potential security flaw in the product that attackers may exploit, see [Reporting security issues and bugs (dotnet/aspnetcore GitHub repository)](https://github.com/dotnet/aspnetcore/blob/main/CONTRIBUTING.md#reporting-security-issues-and-bugs).
 
@@ -99,6 +101,14 @@ When testing and troubleshooting a hosted Blazor solution, make sure that you're
 * Select the **Run** button.
 * Use **Debug** > **Start Debugging** from the menu.
 * Press <kbd>F5</kbd>.
+
+### Inspect the user
+
+The [ASP.NET Core framework's test assets](https://github.com/dotnet/aspnetcore/tree/main/src/Components/WebAssembly/testassets) include a [Blazor WebAssembly client app](https://github.com/dotnet/aspnetcore/tree/main/src/Components/WebAssembly/testassets/Wasm.Authentication.Client) with a `User` component that can be useful in troubleshooting. The `User` component can be used directly in apps or serve as the basis for further customization:
+
+[`User` test component in the `dotnet/aspnetcore` GitHub repository](https://github.com/dotnet/aspnetcore/blob/main/src/Components/WebAssembly/testassets/Wasm.Authentication.Client/Pages/User.razor)
+
+[!INCLUDE[](~/includes/aspnetcore-repo-ref-source-links.md)]
 
 ### Inspect the content of a JSON Web Token (JWT)
 

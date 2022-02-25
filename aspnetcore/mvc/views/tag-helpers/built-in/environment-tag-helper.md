@@ -5,7 +5,7 @@ description: ASP.NET Core Environment Tag Helper defined including all propertie
 ms.author: riande
 ms.custom: mvc
 ms.date: 10/10/2018
-no-loc: [Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
+no-loc: ["Blazor Hybrid", Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
 uid: mvc/views/tag-helpers/builtin-th/environment-tag-helper
 ---
 # Environment Tag Helper in ASP.NET Core
@@ -32,7 +32,7 @@ The following example uses an Environment Tag Helper. The content is rendered if
 </environment>
 ```
 
-::: moniker range=">= aspnetcore-2.0"
+:::moniker range=">= aspnetcore-2.0"
 
 ## include and exclude attributes
 
@@ -58,7 +58,7 @@ In contrast to the `include` attribute, the content of the `<environment>` tag i
 </environment>
 ```
 
-::: moniker-end
+:::moniker-end
 
 ## Additional resources
 

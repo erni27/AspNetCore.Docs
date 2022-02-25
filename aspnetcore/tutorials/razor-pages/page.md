@@ -3,9 +3,10 @@ title: Part 3, scaffolded Razor Pages
 author: rick-anderson
 description: Part 3 of tutorial series on Razor Pages.
 ms.author: riande
+monikerRange: '>= aspnetcore-3.1'
 ms.date: 09/25/2020
 ms.custom: contperf-fy21q2
-no-loc: [Home, Privacy, Index, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
+no-loc: ["Blazor Hybrid", Home, Privacy, Index, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
 uid: tutorials/razor-pages/page
 ---
 
@@ -15,7 +16,7 @@ By [Rick Anderson](https://twitter.com/RickAndMSFT)
 
 This tutorial examines the Razor Pages created by scaffolding in the [previous tutorial](xref:tutorials/razor-pages/model).
 
-::: moniker range=">= aspnetcore-3.0 < aspnetcore-6.0"
+:::moniker range="< aspnetcore-6.0"
 
 ## The Create, Delete, Details, and Edit pages
 
@@ -44,7 +45,7 @@ Examine the *Pages/Movies/Index.cshtml* Razor Page:
 
 [!code-cshtml[](razor-pages-start/snapshot_sample3/RazorPagesMovie30/Pages/Movies/Index.cshtml)]
 
-Razor can transition from HTML into C# or into Razor-specific markup. When an `@` symbol is followed by a [Razor reserved keyword](xref:mvc/views/razor#razor-reserved-keywords), it transitions into Razor-specific markup, otherwise it transitions into HTML.
+Razor can transition from HTML into C# or into Razor-specific markup. When an `@` symbol is followed by a [Razor reserved keyword](xref:mvc/views/razor#razor-reserved-keywords), it transitions into Razor-specific markup, otherwise it transitions into C#.
 
 ### The @page directive
 
@@ -65,7 +66,7 @@ Examine the lambda expression used in the following HTML Helper:
 @Html.DisplayNameFor(model => model.Movie[0].Title)
 ```
 
-The <xref:System.Web.Mvc.Html.DisplayNameExtensions.DisplayNameFor%2A?displayProperty=nameWithType> HTML Helper inspects the `Title` property referenced in the lambda expression to determine the display name. The lambda expression is inspected rather than evaluated. That means there is no access violation when `model`, `model.Movie`, or `model.Movie[0]` is `null` or empty. When the lambda expression is evaluated, for example, with `@Html.DisplayFor(modelItem => item.Title)`, the model's property values are evaluated.
+The <xref:Microsoft.AspNetCore.Mvc.Rendering.IHtmlHelper%601.DisplayNameFor%2A> HTML Helper inspects the `Title` property referenced in the lambda expression to determine the display name. The lambda expression is inspected rather than evaluated. That means there is no access violation when `model`, `model.Movie`, or `model.Movie[0]` is `null` or empty. When the lambda expression is evaluated, for example, with `@Html.DisplayFor(modelItem => item.Title)`, the model's property values are evaluated.
 
 ### The layout page
 
@@ -204,9 +205,9 @@ For more information on Tag Helpers such as `<form method="post">`, see [Tag Hel
 > [Previous: Add a model](xref:tutorials/razor-pages/model)
 > [Next: Work with a database](xref:tutorials/razor-pages/sql)
 
-::: moniker-end
+:::moniker-end
 
-::: moniker range=">=  aspnetcore-6.0"
+:::moniker range=">= aspnetcore-6.0"
 <!-- Make a copy of the current project at tutorials/razor-pages/razor-pages-start/snapshot_v6 -->
 ## The Create, Delete, Details, and Edit pages
 
@@ -257,7 +258,7 @@ Examine the lambda expression used in the following HTML Helper:
 @Html.DisplayNameFor(model => model.Movie[0].Title)
 ```
 
-The <xref:System.Web.Mvc.Html.DisplayNameExtensions.DisplayNameFor%2A?displayProperty=nameWithType> HTML Helper inspects the `Title` property referenced in the lambda expression to determine the display name. The lambda expression is inspected rather than evaluated. That means there is no access violation when `model`, `model.Movie`, or `model.Movie[0]` is `null` or empty. When the lambda expression is evaluated, for example, with `@Html.DisplayFor(modelItem => item.Title)`, the model's property values are evaluated.
+The <xref:Microsoft.AspNetCore.Mvc.Rendering.IHtmlHelper%601.DisplayNameFor%2A> HTML Helper inspects the `Title` property referenced in the lambda expression to determine the display name. The lambda expression is inspected rather than evaluated. That means there is no access violation when `model`, `model.Movie`, or `model.Movie[0]` is `null` or empty. When the lambda expression is evaluated, for example, with `@Html.DisplayFor(modelItem => item.Title)`, the model's property values are evaluated.
 
 ### The layout page
 
@@ -395,4 +396,4 @@ For more information on Tag Helpers such as `<form method="post">`, see [Tag Hel
 > [Previous: Add a model](xref:tutorials/razor-pages/model)
 > [Next: Work with a database](xref:tutorials/razor-pages/sql)
 
-::: moniker-end
+:::moniker-end

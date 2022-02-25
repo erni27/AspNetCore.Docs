@@ -5,10 +5,9 @@ description: Learn how to use authentication and authorization in gRPC for ASP.N
 monikerRange: '>= aspnetcore-3.0'
 ms.author: jamesnk
 ms.date: 05/26/2020
-no-loc: [Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
+no-loc: ["Blazor Hybrid", Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
 uid: grpc/authn-and-authz
 ---
-
 # Authentication and authorization in gRPC for ASP.NET Core
 
 By [James Newton-King](https://twitter.com/jamesnk)
@@ -58,7 +57,7 @@ public override Task<BuyTicketsResponse> BuyTickets(
 
 The client can provide an access token for authentication. The server validates the token and uses it to identify the user.
 
-On the server, bearer token authentication is configured using the [JWT Bearer middleware](/dotnet/api/microsoft.extensions.dependencyinjection.jwtbearerextensions.addjwtbearer).
+On the server, bearer token authentication is configured using the [JWT Bearer middleware](xref:Microsoft.Extensions.DependencyInjection.JwtBearerExtensions.AddJwtBearer%2A).
 
 In the .NET gRPC client, the token can be sent with calls by using the `Metadata` collection. Entries in the `Metadata` collection are sent with a gRPC call as HTTP headers:
 
@@ -129,6 +128,48 @@ services
     });
 ```
 
+A gRPC interceptor can also be used to configure a bearer token. An advantage to using an interceptor is the client factory can be configured to create a new interceptor for each client. This allows an interceptor to be [constructed from DI using scoped and transient services](/dotnet/core/extensions/dependency-injection#service-lifetimes).
+
+Consider an app that has:
+* A user-defined `ITokenProvider` for getting a bearer token. `ITokenProvider` is registered in DI with a scoped lifetime.
+* gRPC client factory is configured to create clients that are injected into gRPC services and Web API controllers.
+* gRPC calls should use `ITokenProvider` to get a bearer token.
+
+```csharp
+public class AuthInterceptor : Interceptor
+{
+    private readonly ITokenProvider _tokenProvider;
+    
+    public AuthInterceptor(ITokenProvider tokenProvider)
+    {
+        _tokenProvider = tokenProvider;
+    }
+    
+    public override AsyncUnaryCall<TResponse> AsyncUnaryCall<TRequest, TResponse>(
+        TRequest request,
+        ClientInterceptorContext<TRequest, TResponse> context,
+        AsyncUnaryCallContinuation<TRequest, TResponse> continuation)
+    {
+        context.Options.Metadata.Add("Authorization", $"Bearer {_tokenProvider.GetToken()}");
+        return continuation(request, context);
+    }
+}
+```
+
+```csharp
+services
+    .AddGrpcClient<Greeter.GreeterClient>(o =>
+    {
+        o.Address = new Uri("https://localhost:5001");
+    })
+    .AddInterceptor<AuthInterceptor>(InterceptorScope.Client);
+```
+
+The preceeding code:
+* Defines `AuthInterceptor` which is constructed using the user defined `ITokenProvider`.
+* Registers the `GreeterClient` type with client factory.
+* Configures the `AuthInterceptor` for this client using `InterceptorScope.Client`. A new interceptor is created for each client instance. When a client is created for a gRPC service or Web API controller, the scoped `ITokenProvider` is injected into the interceptor.
+
 ### Client certificate authentication
 
 A client could alternatively provide a client certificate for authentication. [Certificate authentication](https://tools.ietf.org/html/rfc5246#section-7.4.4) happens at the TLS level, long before it ever gets to ASP.NET Core. When the request enters ASP.NET Core, the [client certificate authentication package](xref:security/authentication/certauth) allows you to resolve the certificate to a `ClaimsPrincipal`.
@@ -173,7 +214,7 @@ For more information on configuring authentication on the server, see [ASP.NET C
 
 Configuring the gRPC client to use authentication will depend on the authentication mechanism you are using. The previous bearer token and client certificate examples show a couple of ways the gRPC client can be configured to send authentication metadata with gRPC calls:
 
-* Strongly typed gRPC clients use `HttpClient` internally. Authentication can be configured on [HttpClientHandler](/dotnet/api/system.net.http.httpclienthandler), or by adding custom [HttpMessageHandler](/dotnet/api/system.net.http.httpmessagehandler) instances to the `HttpClient`.
+* Strongly typed gRPC clients use `HttpClient` internally. Authentication can be configured on <xref:System.Net.Http.HttpClientHandler>, or by adding custom <xref:System.Net.Http.HttpMessageHandler> instances to the `HttpClient`.
 * Each gRPC call has an optional `CallOptions` argument. Custom headers can be sent using the option's headers collection.
 
 > [!NOTE]

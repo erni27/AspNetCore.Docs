@@ -5,7 +5,7 @@ description: Learn how to create gRPC services and methods.
 monikerRange: '>= aspnetcore-3.0'
 ms.author: jamesnk
 ms.date: 08/25/2020
-no-loc: [Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
+no-loc: ["Blazor Hybrid", Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
 uid: grpc/services
 ---
 # Create gRPC services and methods
@@ -14,15 +14,15 @@ By [James Newton-King](https://twitter.com/jamesnk)
 
 This document explains how to create gRPC services and methods in C#. Topics include:
 
-* How to define services and methods in *.proto* files.
+* How to define services and methods in `.proto` files.
 * Generated code using gRPC C# tooling.
 * Implementing gRPC services and methods.
 
 ## Create new gRPC services
 
-[gRPC services with C#](xref:grpc/basics) introduced gRPC's contract-first approach to API development. Services and messages are defined in *.proto* files. C# tooling then generates code from *.proto* files. For server-side assets, an abstract base type is generated for each service, along with classes for any messages.
+[gRPC services with C#](xref:grpc/basics) introduced gRPC's contract-first approach to API development. Services and messages are defined in `.proto` files. C# tooling then generates code from `.proto` files. For server-side assets, an abstract base type is generated for each service, along with classes for any messages.
 
-The following *.proto* file:
+The following `.proto` file:
 
 * Defines a `Greeter` service.
 * The `Greeter` service defines a `SayHello` call.
@@ -78,6 +78,8 @@ public class GreeterService : GreeterBase
 }
 ```
 
+The `ServerCallContext` gives the context for a server-side call.
+
 The service implementation is registered with the app. If the service is hosted by ASP.NET Core gRPC, it should be added to the routing pipeline with the `MapGrpcService` method.
 
 ```csharp
@@ -98,7 +100,7 @@ A gRPC service can have different types of methods. How messages are sent and re
 * Client streaming
 * Bi-directional streaming
 
-Streaming calls are specified with the `stream` keyword in the *.proto* file. `stream` can be placed on a call's request message, response message, or both.
+Streaming calls are specified with the `stream` keyword in the `.proto` file. `stream` can be placed on a call's request message, response message, or both.
 
 ```protobuf
 syntax = "proto3";
@@ -137,8 +139,8 @@ Unary calls are the most similar to [actions on web API controllers](xref:web-ap
 
 ```protobuf
 message ExampleRequest {
-    int pageIndex = 1;
-    int pageSize = 2;
+    int32 pageIndex = 1;
+    int32 pageSize = 2;
     bool isDescending = 3;
 }
 ```

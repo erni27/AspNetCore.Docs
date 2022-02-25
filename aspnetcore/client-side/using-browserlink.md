@@ -5,7 +5,7 @@ description: Explains how Browser Link is a Visual Studio feature that links the
 ms.author: riande
 ms.custom: H1Hack27Feb2017
 ms.date: 01/09/2020
-no-loc: [Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
+no-loc: ["Blazor Hybrid", Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
 uid: client-side/using-browserlink
 ---
 # Browser Link in ASP.NET Core
@@ -16,29 +16,29 @@ Browser Link is a Visual Studio feature. It creates a communication channel betw
 
 ## Browser Link setup
 
-::: moniker range=">= aspnetcore-3.0"
+:::moniker range=">= aspnetcore-3.0"
 
 Add the [Microsoft.VisualStudio.Web.BrowserLink](https://www.nuget.org/packages/Microsoft.VisualStudio.Web.BrowserLink/) package to your project. For ASP.NET Core Razor Pages or MVC projects, also enable runtime compilation of Razor (*.cshtml*) files as described in <xref:mvc/views/view-compilation>. Razor syntax changes are applied only when runtime compilation has been enabled.
 
-::: moniker-end
+:::moniker-end
 
-::: moniker range=">= aspnetcore-2.1 <= aspnetcore-2.2"
+:::moniker range=">= aspnetcore-2.1 <= aspnetcore-2.2"
 
 When converting an ASP.NET Core 2.0 project to ASP.NET Core 2.1 and transitioning to the [Microsoft.AspNetCore.App metapackage](xref:fundamentals/metapackage-app), install the [Microsoft.VisualStudio.Web.BrowserLink](https://www.nuget.org/packages/Microsoft.VisualStudio.Web.BrowserLink/) package for Browser Link functionality. The ASP.NET Core 2.1 project templates use the `Microsoft.AspNetCore.App` metapackage by default.
 
-::: moniker-end
+:::moniker-end
 
-::: moniker range="= aspnetcore-2.0"
+:::moniker range="= aspnetcore-2.0"
 
 The ASP.NET Core 2.0 **Web Application**, **Empty**, and **Web API** project templates use the [Microsoft.AspNetCore.All metapackage](xref:fundamentals/metapackage), which contains a package reference for [Microsoft.VisualStudio.Web.BrowserLink](https://www.nuget.org/packages/Microsoft.VisualStudio.Web.BrowserLink/). Therefore, using the `Microsoft.AspNetCore.All` metapackage requires no further action to make Browser Link available for use.
 
-::: moniker-end
+:::moniker-end
 
-::: moniker range="<= aspnetcore-1.1"
+:::moniker range="<= aspnetcore-1.1"
 
 The ASP.NET Core 1.x **Web Application** project template has a package reference for the [Microsoft.VisualStudio.Web.BrowserLink](https://www.nuget.org/packages/Microsoft.VisualStudio.Web.BrowserLink/) package. Other project types require you to add a package reference to `Microsoft.VisualStudio.Web.BrowserLink`.
 
-::: moniker-end
+:::moniker-end
 
 ### Configuration
 
@@ -93,7 +93,7 @@ Hover over the Browser Link toolbar control to see the browsers that are connect
 
 Change the Index view, and all connected browsers are updated when you click the Browser Link refresh button:
 
-![browsers-sync-to-changes](using-browserlink/_static/browsers-sync-to-changes.png)
+![Browsers sync to changes](using-browserlink/_static/browsers-sync-to-changes.png)
 
 Browser Link also works with browsers that you launch from outside Visual Studio and navigate to the app URL.
 
@@ -105,11 +105,11 @@ Open the **Browser Link Dashboard** window from the Browser Link drop down menu 
 
 If no browser is connected, you can start a non-debugging session by selecting the **View in Browser** link:
 
-![browserlink-dashboard-no-connections](using-browserlink/_static/browserlink-dashboard-no-connections.png)
+![Browserlink dashboard no connections](using-browserlink/_static/browserlink-dashboard-no-connections.png)
 
 Otherwise, the connected browsers are shown with the path to the page that each browser is showing:
 
-![browserlink-dashboard-two-connections](using-browserlink/_static/browserlink-dashboard-two-connections.png)
+![Browserlink dashboard two connections](using-browserlink/_static/browserlink-dashboard-two-connections.png)
 
 You can also click on an individual browser name to refresh only that browser.
 

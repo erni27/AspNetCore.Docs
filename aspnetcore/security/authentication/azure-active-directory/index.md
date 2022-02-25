@@ -5,7 +5,7 @@ description: Discover topics related to authentication with Microsoft identity p
 ms.author: riande
 ms.date: 01/21/2020
 ms.custom: "mvc, seodec18"
-no-loc: [Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
+no-loc: ["Blazor Hybrid", Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
 uid: security/authentication/azure-active-directory/index
 ---
 # Azure Active Directory with ASP.NET Core
@@ -23,6 +23,4 @@ These tutorials and samples demonstrate authentication in ASP.NET Core using Mic
 
 ## Samples
 
-* [Enable your ASP.NET Core app to sign-in users and call web APIs using Azure AD V2](/samples/azure-samples/active-directory-aspnetcore-webapp-openidconnect-v2/enable-webapp-signin/): 
-  * See [this associated video](https://channel9.msdn.com/Events/Build/2018/THR5001)
-
+* [Enable your ASP.NET Core app to sign-in users and call web APIs using Azure AD V2](/samples/azure-samples/active-directory-aspnetcore-webapp-openidconnect-v2/enable-webapp-signin/)

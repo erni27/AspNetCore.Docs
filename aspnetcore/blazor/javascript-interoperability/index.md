@@ -1,17 +1,17 @@
 ---
-title: Blazor JavaScript interoperability (JS interop)
+title: ASP.NET Core Blazor JavaScript interoperability (JS interop)
 author: guardrex
 description: Learn how to interact with JavaScript in Blazor apps.
 monikerRange: '>= aspnetcore-3.1'
 ms.author: riande
-ms.custom: mvc, devx-track-js 
-ms.date: 05/12/2021
-no-loc: [Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR, JS, Promise]
+ms.custom: mvc
+ms.date: 11/09/2021
+no-loc: ["Blazor Hybrid", Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR, JS, Promise]
 uid: blazor/js-interop/index
 ---
-# Blazor JavaScript interoperability (JS interop)
+# ASP.NET Core Blazor JavaScript interoperability (JS interop)
 
-::: moniker range=">= aspnetcore-6.0"
+:::moniker range=">= aspnetcore-6.0"
 
 A Blazor app can invoke JavaScript (JS) functions from .NET methods and .NET methods from JS functions. These scenarios are called *JavaScript interoperability* (*JS interop*).
 
@@ -38,7 +38,7 @@ JS interop calls are asynchronous by default, regardless of whether the called c
 
 [!INCLUDE[](~/blazor/includes/js-initializers.md)]
 
-## Location of JavaScipt
+## Location of JavaScript
 
 Load JavaScript (JS) code using any of the following approaches:
 
@@ -210,9 +210,9 @@ For more information, see:
 * <xref:blazor/fundamentals/environments>
 * <xref:performance/caching/response>
 
-::: moniker-end
+:::moniker-end
 
-::: moniker range=">= aspnetcore-5.0 < aspnetcore-6.0"
+:::moniker range=">= aspnetcore-5.0 < aspnetcore-6.0"
 
 A Blazor app can invoke JavaScript (JS) functions from .NET methods and .NET methods from JS functions. These scenarios are called *JavaScript interoperability* (*JS interop*).
 
@@ -235,7 +235,7 @@ For more information, see <xref:blazor/js-interop/call-javascript-from-dotnet#ca
 
 JS interop calls are asynchronous by default, regardless of whether the called code is synchronous or asynchronous. Calls are asynchronous by default to ensure that components are compatible across both Blazor hosting models, Blazor Server and Blazor WebAssembly. On Blazor Server, JS interop calls must be asynchronous because they're sent over a network connection. For apps that exclusively adopt the Blazor WebAssembly hosting model, synchronous JS interop calls are supported. For more information, see <xref:blazor/performance?pivots=webassembly#consider-the-use-of-synchronous-calls>.
 
-## Location of JavaScipt
+## Location of JavaScript
 
 Load JavaScript (JS) code using any of the following approaches:
 
@@ -400,9 +400,9 @@ For more information, see:
 * <xref:blazor/fundamentals/environments>
 * <xref:performance/caching/response>
 
-::: moniker-end
+:::moniker-end
 
-::: moniker range="< aspnetcore-5.0"
+:::moniker range="< aspnetcore-5.0"
 
 A Blazor app can invoke JavaScript (JS) functions from .NET methods and .NET methods from JS functions. These scenarios are called *JavaScript interoperability* (*JS interop*).
 
@@ -425,7 +425,7 @@ For more information, see <xref:blazor/js-interop/call-javascript-from-dotnet#ca
 
 JS interop calls are asynchronous by default, regardless of whether the called code is synchronous or asynchronous. Calls are asynchronous by default to ensure that components are compatible across both Blazor hosting models, Blazor Server and Blazor WebAssembly. On Blazor Server, JS interop calls must be asynchronous because they're sent over a network connection. For apps that exclusively adopt the Blazor WebAssembly hosting model, synchronous JS interop calls are supported. For more information, see <xref:blazor/performance?pivots=webassembly#consider-the-use-of-synchronous-calls>.
 
-## Location of JavaScipt
+## Location of JavaScript
 
 Load JavaScript (JS) code using any of the following approaches:
 
@@ -580,4 +580,4 @@ For more information, see:
 * <xref:blazor/fundamentals/environments>
 * <xref:performance/caching/response>
 
-::: moniker-end
+:::moniker-end

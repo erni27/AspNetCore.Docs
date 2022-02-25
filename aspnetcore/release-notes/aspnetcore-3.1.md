@@ -5,7 +5,7 @@ description: Learn about the new features in ASP.NET Core 3.1.
 ms.author: riande
 ms.custom: mvc
 ms.date: 02/12/2020
-no-loc: [Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
+no-loc: ["Blazor Hybrid", Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
 uid: aspnetcore-3.1
 ---
 # What's new in ASP.NET Core 3.1
@@ -16,7 +16,7 @@ This article highlights the most significant changes in ASP.NET Core 3.1 with li
 
 Razor components are now generated as partial classes. Code for a Razor component can be written using a code-behind file defined as a partial class rather than defining all the code for the component in a single file. For more information, see [Partial class support](xref:blazor/components/index#partial-class-support).
 
-## Blazor Component Tag Helper and pass parameters to top-level components
+## Component Tag Helper and pass parameters to top-level components
 
 In Blazor with ASP.NET Core 3.0, components were rendered into pages and views using an HTML Helper (`Html.RenderComponentAsync`). In ASP.NET Core 3.1, render a component from a page or view with the new Component Tag Helper:
 
@@ -84,4 +84,4 @@ When a Blazor app isn't functioning properly during development, receiving detai
 * During development, the gold bar directs you to the browser console, where you can see the exception.
 * In production, the gold bar notifies the user that an error has occurred and recommends refreshing the browser.
 
-For more information, see [Detailed errors during development](xref:blazor/fundamentals/handle-errors#detailed-errors-during-development).
+For more information, see <xref:blazor/fundamentals/handle-errors>.

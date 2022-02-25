@@ -5,7 +5,7 @@ description: Describes the built-in Tag Helpers used with Forms.
 ms.author: riande
 ms.custom: mvc
 ms.date: 12/05/2019
-no-loc: [Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
+no-loc: ["Blazor Hybrid", Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
 uid: mvc/views/working-with-forms
 ---
 # Tag Helpers in forms in ASP.NET Core
@@ -20,7 +20,7 @@ In many cases, HTML Helpers provide an alternative approach to a specific Tag He
 
 ## The Form Tag Helper
 
-The [Form](https://www.w3.org/TR/html401/interact/forms.html) Tag Helper:
+The [Form Tag Helper](xref:Microsoft.AspNetCore.Mvc.TagHelpers.FormTagHelper):
 
 * Generates the HTML [\<FORM>](https://www.w3.org/TR/html401/interact/forms.html) `action` attribute value for a MVC controller action or named route
 
@@ -168,11 +168,11 @@ The Input Tag Helper:
 
 * Generates the `id` and `name` HTML attributes for the expression name specified in the `asp-for` attribute. `asp-for="Property1.Property2"` is equivalent to `m => m.Property1.Property2`. The name of the expression is what is used for the `asp-for` attribute value. See the [Expression names](#expression-names) section for additional information.
 
-* Sets the HTML `type` attribute value based on the model type and  [data annotation](/dotnet/api/microsoft.aspnetcore.mvc.dataannotations.iattributeadapter) attributes applied to the model property
+* Sets the HTML `type` attribute value based on the model type and  [data annotation](xref:Microsoft.AspNetCore.Mvc.DataAnnotations.IAttributeAdapter) attributes applied to the model property
 
 * Won't overwrite the HTML `type` attribute value when one is specified
 
-* Generates [HTML5](https://developer.mozilla.org/docs/Web/Guide/HTML/HTML5)  validation attributes from [data annotation](/dotnet/api/microsoft.aspnetcore.mvc.dataannotations.iattributeadapter) attributes applied to model properties
+* Generates [HTML5](https://developer.mozilla.org/docs/Web/Guide/HTML/HTML5)  validation attributes from [data annotation](xref:Microsoft.AspNetCore.Mvc.DataAnnotations.IAttributeAdapter) attributes applied to model properties
 
 * Has an HTML Helper feature overlap with `Html.TextBoxFor` and `Html.EditorFor`. See the **HTML Helper alternatives to Input Tag Helper** section for details.
 
@@ -200,7 +200,7 @@ The `Input` Tag Helper sets the HTML `type` attribute based on the .NET type. Th
 |Int|type="number"|
 |Single, Double|type="number"|
 
-The following table shows some common [data annotations](/dotnet/api/microsoft.aspnetcore.mvc.dataannotations.iattributeadapter) attributes that the input tag helper will map to specific input types (not every validation attribute is listed):
+The following table shows some common [data annotations](xref:Microsoft.AspNetCore.Mvc.DataAnnotations.IAttributeAdapter) attributes that the input tag helper will map to specific input types (not every validation attribute is listed):
 
 |Attribute|Input Type|
 |---|---|
@@ -238,6 +238,47 @@ The code above generates the following HTML:
 
 The data annotations applied to the `Email` and `Password` properties generate metadata on the model. The Input Tag Helper consumes the model metadata and produces [HTML5](https://developer.mozilla.org/docs/Web/Guide/HTML/HTML5) `data-val-*` attributes (see [Model Validation](../models/validation.md)). These attributes describe the validators to attach to the input fields. This provides unobtrusive HTML5 and [jQuery](https://jquery.com/) validation. The unobtrusive attributes have the format `data-val-rule="Error Message"`, where rule is the name of the validation rule (such as `data-val-required`, `data-val-email`, `data-val-maxlength`, etc.) If an error message is provided in the attribute, it's displayed as the value for the `data-val-rule` attribute. There are also attributes of the form `data-val-ruleName-argumentName="argumentValue"` that provide additional details about the rule, for example, `data-val-maxlength-max="1024"` .
 
+### Checkbox hidden input rendering
+
+Checkboxes in HTML5 don't submit a value when they're unchecked. To enable a default value to be sent for an unchecked checkbox, the Input Tag Helper generates an additional hidden input for checkboxes.
+
+For example, consider the following Razor markup that uses the Input Tag Helper for a boolean model property `IsChecked`:
+
+```cshtml
+<form method="post">
+    <input asp-for="@Model.IsChecked" />
+    <button type="submit">Submit</button>
+</form>
+```
+
+The preceding Razor markup generates HTML markup similar to the following:
+
+```html
+<form method="post">
+    <input name="IsChecked" type="checkbox" value="true" />
+    <button type="submit">Submit</button>
+
+    <input name="IsChecked" type="hidden" value="false" /> 
+</form>
+```
+
+The preceding HTML markup shows an additional hidden input with a name of `IsChecked` and a value of `false`. By default, this hidden input is rendered at the end of the form. When the form is submitted:
+
+* If the `IsChecked` checkbox input is checked, both `true` and `false` are submitted as values.
+* If the `IsChecked` checkbox input is unchecked, only the hidden input value `false` is submitted.
+
+The ASP.NET Core model-binding process reads only the first value when binding to a `bool` value, which results in `true` for checked checkboxes and `false` for unchecked checkboxes.
+
+To configure the behavior of the hidden input rendering, set the <xref:Microsoft.AspNetCore.Mvc.ViewFeatures.HtmlHelperOptions.CheckBoxHiddenInputRenderMode> property on <xref:Microsoft.AspNetCore.Mvc.MvcViewOptions.HtmlHelperOptions?displayProperty=nameWithType>. For example:
+
+```csharp
+services.Configure<MvcViewOptions>(options =>
+    options.HtmlHelperOptions.CheckBoxHiddenInputRenderMode =
+        CheckBoxHiddenInputRenderMode.None);
+```
+
+The preceding code disables hidden input rendering for checkboxes by setting `CheckBoxHiddenInputRenderMode` to <xref:Microsoft.AspNetCore.Mvc.Rendering.CheckBoxHiddenInputRenderMode.None?displayProperty=nameWithType>. For all available rendering modes, see the <xref:Microsoft.AspNetCore.Mvc.Rendering.CheckBoxHiddenInputRenderMode> enum.
+
 ### HTML Helper alternatives to Input Tag Helper
 
 `Html.TextBox`, `Html.TextBoxFor`, `Html.Editor` and `Html.EditorFor` have overlapping features with the Input Tag Helper. The Input Tag Helper will automatically set the `type` attribute; `Html.TextBox` and `Html.TextBoxFor` won't. `Html.Editor` and `Html.EditorFor` handle collections, complex objects and templates; the Input Tag Helper doesn't. The Input Tag Helper, `Html.EditorFor`  and  `Html.TextBoxFor` are strongly typed (they use lambda expressions); `Html.TextBox` and `Html.Editor` are not (they use expression names).
@@ -271,7 +312,7 @@ Generates the following:
 
 With collection properties, `asp-for="CollectionProperty[23].Member"` generates the same name as `asp-for="CollectionProperty[i].Member"` when `i` has the value `23`.
 
-When ASP.NET Core MVC calculates the value of `ModelExpression`, it inspects several sources, including `ModelState`. Consider `<input type="text" asp-for="@Name">`. The calculated `value` attribute is the first non-null value from:
+When ASP.NET Core MVC calculates the value of `ModelExpression`, it inspects several sources, including `ModelState`. Consider `<input type="text" asp-for="Name">`. The calculated `value` attribute is the first non-null value from:
 
 * `ModelState` entry with key "Name".
 * Result of the expression `Model.Name`.
@@ -395,7 +436,7 @@ The following HTML is generated for the `<label>` element:
 <label for="Email">Email Address</label>
 ```
 
-The Label Tag Helper generated the `for` attribute value of "Email", which is the ID associated with the `<input>` element. The Tag Helpers generate consistent `id` and `for` elements so they can be correctly associated. The caption in this sample comes from the `Display` attribute. If the model didn't contain a `Display` attribute, the caption would be the property name of the expression.
+The Label Tag Helper generated the `for` attribute value of "Email", which is the ID associated with the `<input>` element. The Tag Helpers generate consistent `id` and `for` elements so they can be correctly associated. The caption in this sample comes from the `Display` attribute. If the model didn't contain a `Display` attribute, the caption would be the property name of the expression.  To override the default caption, add a caption inside the label tag.
 
 ## The Validation Tag Helpers
 
@@ -445,11 +486,11 @@ When a server side validation error occurs (for example when you have custom ser
 
 The `Validation Summary Tag Helper`  is used to display a summary of validation messages. The `asp-validation-summary` attribute value can be any of the following:
 
-|asp-validation-summary|Validation messages displayed|
-|--- |--- |
-|ValidationSummary.All|Property and model level|
-|ValidationSummary.ModelOnly|Model|
-|ValidationSummary.None|None|
+| asp-validation-summary | Validation messages displayed |
+|------------------------|-------------------------------|
+| `All`                  | Property and model level      |
+| `ModelOnly`            | Model                         |
+| `None`                 | None                          |
 
 ### Sample
 
@@ -664,5 +705,5 @@ The correct `<option>` element will be selected ( contain the `selected="selecte
 * [Request Verification Token](/aspnet/mvc/overview/security/xsrfcsrf-prevention-in-aspnet-mvc-and-web-pages)
 * <xref:mvc/models/model-binding>
 * <xref:mvc/models/validation>
-* [IAttributeAdapter Interface](/dotnet/api/Microsoft.AspNetCore.Mvc.DataAnnotations.IAttributeAdapter)
+* [IAttributeAdapter Interface](xref:Microsoft.AspNetCore.Mvc.DataAnnotations.IAttributeAdapter)
 * [Code snippets for this document](https://github.com/dotnet/AspNetCore.Docs/tree/main/aspnetcore/mvc/views/working-with-forms/sample/final)

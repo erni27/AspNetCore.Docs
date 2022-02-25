@@ -5,7 +5,7 @@ description: Learn how to use Visual Studio tooling and Docker for Windows to co
 ms.author: scaddie
 ms.custom: mvc
 ms.date: 09/12/2018
-no-loc: [Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
+no-loc: ["Blazor Hybrid", Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
 uid: host-and-deploy/docker/visual-studio-tools-for-docker
 ---
 # Visual Studio Container Tools with ASP.NET Core
@@ -16,14 +16,14 @@ Visual Studio 2017 and later versions support building, debugging, and running c
 
 ## Prerequisites
 
-* [Docker for Windows](https://docs.docker.com/docker-for-windows/install/)
+* [Docker for Windows](https://docs.docker.com/desktop/windows/install/)
 * [Visual Studio 2019](https://visualstudio.microsoft.com/downloads/?utm_medium=microsoft&utm_source=docs.microsoft.com&utm_campaign=inline+link&utm_content=download+vs2019) with the **.NET Core cross-platform development** workload
 
 ## Installation and setup
 
-For Docker installation, first review the information at [Docker for Windows: What to know before you install](https://docs.docker.com/docker-for-windows/install/#what-to-know-before-you-install). Next, install [Docker For Windows](https://docs.docker.com/docker-for-windows/install/).
+For Docker installation, first review the information at [Docker for Windows: What to know before you install](https://docs.docker.com/desktop/windows/install/#what-to-know-before-you-install). Next, install [Docker For Windows](https://docs.docker.com/desktop/windows/install/).
 
-**[Shared Drives](https://docs.docker.com/docker-for-windows/#shared-drives)** in Docker for Windows must be configured to support volume mapping and debugging. Right-click the System Tray's Docker icon, select **Settings**, and select **Shared Drives**. Select the drive where Docker stores files. Click **Apply**.
+**[Shared Drives](https://docs.docker.com/desktop/windows/#resources)** in Docker for Windows must be configured to support volume mapping and debugging. Right-click the System Tray's Docker icon, select **Settings**, and select **Shared Drives**. Select the drive where Docker stores files. Click **Apply**.
 
 ![Dialog to select local C drive sharing for containers](visual-studio-tools-for-docker/_static/settings-shared-drives-win.png)
 
@@ -57,7 +57,7 @@ The Visual Studio Container Tools don't support adding Docker to an existing ASP
 
 A *Dockerfile*, the recipe for creating a final Docker image, is added to the project root. Refer to [Dockerfile reference](https://docs.docker.com/engine/reference/builder/) for an understanding of the commands within it. This particular *Dockerfile* uses a [multi-stage build](https://docs.docker.com/engine/userguide/eng-image/multistage-build/) with four distinct, named build stages:
 
-::: moniker range=">= aspnetcore-2.1"
+:::moniker range=">= aspnetcore-2.1"
 
 [!code-dockerfile[](visual-studio-tools-for-docker/samples/2.1/HelloDockerTools/Dockerfile.original?highlight=1,6,14,17)]
 
@@ -65,15 +65,15 @@ The preceding *Dockerfile* is based on the [microsoft/dotnet](https://hub.docker
 
 When the new project dialog's **Configure for HTTPS** checkbox is checked, the *Dockerfile* exposes two ports. One port is used for HTTP traffic; the other port is used for HTTPS. If the checkbox isn't checked, a single port (80) is exposed for HTTP traffic.
 
-::: moniker-end
+:::moniker-end
 
-::: moniker range="<= aspnetcore-2.0"
+:::moniker range="<= aspnetcore-2.0"
 
 [!code-dockerfile[](visual-studio-tools-for-docker/samples/2.0/HelloDockerTools/Dockerfile?highlight=1,5,13,16)]
 
 The preceding *Dockerfile* is based on the [microsoft/aspnetcore](https://hub.docker.com/r/microsoft/aspnetcore/) image. This base image includes the ASP.NET Core NuGet packages, which are just-in-time (JIT) compiled to improve startup performance.
 
-::: moniker-end
+:::moniker-end
 
 ## Add container orchestrator support to an app
 
@@ -136,7 +136,7 @@ For more information, see [Deploy a .NET app in a Windows container to Azure Ser
 
 Select **Docker** from the debug drop-down in the toolbar, and start debugging the app. The **Docker** view of the **Output** window shows the following actions taking place:
 
-::: moniker range=">= aspnetcore-2.1"
+:::moniker range=">= aspnetcore-2.1"
 
 * The *2.1-aspnetcore-runtime* tag of the *microsoft/dotnet* runtime image is acquired (if not already in the cache). The image installs the ASP.NET Core and .NET Core runtimes and associated libraries. It's optimized for running ASP.NET Core apps in production.
 * The `ASPNETCORE_ENVIRONMENT` environment variable is set to `Development` within the container.
@@ -152,9 +152,9 @@ hellodockertools  dev                     d72ce0f1dfe7  30 seconds ago  255MB
 microsoft/dotnet  2.1-aspnetcore-runtime  fcc3887985bb  6 days ago      255MB
 ```
 
-::: moniker-end
+:::moniker-end
 
-::: moniker range="<= aspnetcore-2.0"
+:::moniker range="<= aspnetcore-2.0"
 
 * The *microsoft/aspnetcore* runtime image is acquired (if not already in the cache).
 * The `ASPNETCORE_ENVIRONMENT` environment variable is set to `Development` within the container.
@@ -170,7 +170,7 @@ hellodockertools      dev  5fafe5d1ad5b  4 minutes ago  347MB
 microsoft/aspnetcore  2.0  c69d39472da9  13 days ago    347MB
 ```
 
-::: moniker-end
+:::moniker-end
 
 > [!NOTE]
 > The *dev* image lacks the app contents, as **Debug** configurations use volume mounting to provide the iterative experience. To push an image, use the **Release** configuration.
@@ -199,7 +199,7 @@ Once the develop and debug cycle of the app is completed, the Visual Studio Cont
 
 Run the `docker images` command in PMC to see the list of images. Output similar to the following is displayed:
 
-::: moniker range=">= aspnetcore-2.1"
+:::moniker range=">= aspnetcore-2.1"
 
 ```console
 REPOSITORY        TAG                     IMAGE ID      CREATED             SIZE
@@ -209,9 +209,9 @@ microsoft/dotnet  2.1-sdk                 9e243db15f91  6 days ago          1.7G
 microsoft/dotnet  2.1-aspnetcore-runtime  fcc3887985bb  6 days ago          255MB
 ```
 
-::: moniker-end
+:::moniker-end
 
-::: moniker range="<= aspnetcore-2.0"
+:::moniker range="<= aspnetcore-2.0"
 
 ```console
 REPOSITORY                  TAG     IMAGE ID      CREATED         SIZE
@@ -223,7 +223,7 @@ microsoft/aspnetcore        2.0     c69d39472da9  13 days ago     347MB
 
 The `microsoft/aspnetcore-build` and `microsoft/aspnetcore` images listed in the preceding output are replaced with `microsoft/dotnet` images as of .NET Core 2.1. For more information, see [the Docker repositories migration announcement](https://github.com/aspnet/Announcements/issues/298).
 
-::: moniker-end
+:::moniker-end
 
 > [!NOTE]
 > The `docker images` command returns intermediary images with repository names and tags identified as *\<none>* (not listed above). These unnamed images are produced by the [multi-stage build](https://docs.docker.com/engine/userguide/eng-image/multistage-build/) *Dockerfile*. They improve the efficiency of building the final image&mdash;only the necessary layers are rebuilt when changes occur. When the intermediary images are no longer needed, delete them using the [docker rmi](https://docs.docker.com/engine/reference/commandline/rmi/) command.

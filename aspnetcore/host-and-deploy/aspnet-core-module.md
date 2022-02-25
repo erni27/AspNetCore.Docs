@@ -6,7 +6,7 @@ monikerRange: '>= aspnetcore-2.1'
 ms.author: riande
 ms.custom: mvc
 ms.date: 01/13/2020
-no-loc: [Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
+no-loc: ["Blazor Hybrid", Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
 uid: host-and-deploy/aspnet-core-module
 ---
 
@@ -14,7 +14,7 @@ uid: host-and-deploy/aspnet-core-module
 
 By [Tom Dykstra](https://github.com/tdykstra), [Rick Strahl](https://github.com/RickStrahl), [Chris Ross](https://github.com/Tratcher), [Rick Anderson](https://twitter.com/RickAndMSFT), [Sourabh Shirhatti](https://twitter.com/sshirhatti), and [Justin Kotalik](https://github.com/jkotalik)
 
-::: moniker range=">= aspnetcore-5.0"
+:::moniker range=">= aspnetcore-5.0"
 
 The ASP.NET Core Module is a native IIS module that plugs into the IIS pipeline, allowing ASP.NET Core applications to work with IIS. Run ASP.NET Core apps with IIS by either: 
 
@@ -22,6 +22,9 @@ The ASP.NET Core Module is a native IIS module that plugs into the IIS pipeline,
 * Forwarding web requests to a backend ASP.NET Core app running the Kestrel server, called the [out-of-process hosting model](xref:host-and-deploy/iis/out-of-process-hosting).
 
 There are trade-offs between each of the hosting models. By default, the in-process hosting model is used due to better performance and diagnostics.
+
+For more information and configuration guidance, see the following topics:
+* <xref:fundamentals/servers/index>
 
 ## Install ASP.NET Core Module
 
@@ -37,9 +40,9 @@ For more information, including installing an earlier version of the module, see
 
 For a tutorial experience on publishing an ASP.NET Core app to an IIS server, see <xref:tutorials/publish-to-iis>.
 
-::: moniker-end
+:::moniker-end
 
-::: moniker range=">= aspnetcore-3.0 < aspnetcore-5.0"
+:::moniker range=">= aspnetcore-3.0 < aspnetcore-5.0"
 
 The ASP.NET Core Module is a native IIS module that plugs into the IIS pipeline to either:
 
@@ -443,9 +446,9 @@ The Hosting Bundle installer logs for the module are found at `C:\Users\%UserNam
 
 The files can be found by searching for `aspnetcore` in the `applicationHost.config` file.
 
-::: moniker-end
+:::moniker-end
 
-::: moniker range="= aspnetcore-2.2"
+:::moniker range="= aspnetcore-2.2"
 
 The ASP.NET Core Module is a native IIS module that plugs into the IIS pipeline to either:
 
@@ -840,9 +843,9 @@ The Hosting Bundle installer logs for the module are found at `C:\\Users\\%UserN
 
 The files can be found by searching for `aspnetcore` in the `applicationHost.config` file.
 
-::: moniker-end
+:::moniker-end
 
-::: moniker range="< aspnetcore-2.2"
+:::moniker range="< aspnetcore-2.2"
 
 The ASP.NET Core Module is a native IIS module that plugs into the IIS pipeline to forward web requests to backend ASP.NET Core apps.
 
@@ -1064,7 +1067,7 @@ The Hosting Bundle installer logs for the module are found at *C:\\Users\\%UserN
 
 The files can be found by searching for *aspnetcore* in the *applicationHost.config* file.
 
-::: moniker-end
+:::moniker-end
 
 ## Additional resources
 

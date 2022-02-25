@@ -5,13 +5,13 @@ description: Learn how to secure a hosted ASP.NET Core Blazor WebAssembly app wi
 monikerRange: '>= aspnetcore-3.1'
 ms.author: riande
 ms.custom: mvc
-ms.date: 10/27/2020
-no-loc: [Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
+ms.date: 11/09/2021
+no-loc: ["Blazor Hybrid", Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
 uid: blazor/security/webassembly/hosted-with-identity-server
 ---
 # Secure an ASP.NET Core Blazor WebAssembly hosted app with Identity Server
 
-::: moniker range=">= aspnetcore-6.0"
+:::moniker range=">= aspnetcore-6.0"
 
 This article explains how to create a [hosted Blazor WebAssembly solution](xref:blazor/hosting-models#blazor-webassembly) that uses [Duende Identity Server](https://docs.duendesoftware.com) to authenticate users and API calls.
 
@@ -74,16 +74,16 @@ The following sections describe additions to the project when authentication sup
 
 The `Startup` class has the following additions.
 
-* In `Startup.ConfigureServices`:
+* In `Program.cs`:
 
   * ASP.NET Core Identity:
 
     ```csharp
-    services.AddDbContext<ApplicationDbContext>(options =>
+    builder.Services.AddDbContext<ApplicationDbContext>(options =>
         options.UseSqlite(
             Configuration.GetConnectionString("DefaultConnection")));
 
-    services.AddDefaultIdentity<ApplicationUser>(options => 
+    builder.Services.AddDefaultIdentity<ApplicationUser>(options => 
             options.SignIn.RequireConfirmedAccount = true)
         .AddEntityFrameworkStores<ApplicationDbContext>();
     ```
@@ -91,18 +91,18 @@ The `Startup` class has the following additions.
   * IdentityServer with an additional <xref:Microsoft.Extensions.DependencyInjection.IdentityServerBuilderConfigurationExtensions.AddApiAuthorization%2A> helper method that sets up default ASP.NET Core conventions on top of IdentityServer:
 
     ```csharp
-    services.AddIdentityServer()
+    builder.Services.AddIdentityServer()
         .AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
     ```
 
   * Authentication with an additional <xref:Microsoft.AspNetCore.Authentication.AuthenticationBuilderExtensions.AddIdentityServerJwt%2A> helper method that configures the app to validate JWT tokens produced by IdentityServer:
 
     ```csharp
-    services.AddAuthentication()
+    builder.Services.AddAuthentication()
         .AddIdentityServerJwt();
     ```
 
-* In `Startup.Configure`:
+* In `Program.cs`:
 
   * The IdentityServer middleware exposes the OpenID Connect (OIDC) endpoints:
 
@@ -173,19 +173,13 @@ The placeholder `{APP ASSEMBLY}` is the app's assembly name (for example, `Blazo
 
 When an app is created to use Individual User Accounts (`Individual`), the app automatically receives a package reference for the [`Microsoft.AspNetCore.Components.WebAssembly.Authentication`](https://www.nuget.org/packages/Microsoft.AspNetCore.Components.WebAssembly.Authentication) package in the app's project file. The package provides a set of primitives that help the app authenticate users and obtain tokens to call protected APIs.
 
-If adding authentication to an app, manually add the package to the app's project file:
+If adding authentication to an app, manually add the [`Microsoft.AspNetCore.Components.WebAssembly.Authentication`](https://www.nuget.org/packages/Microsoft.AspNetCore.Components.WebAssembly.Authentication) package to the app.
 
-```xml
-<PackageReference 
-  Include="Microsoft.AspNetCore.Components.WebAssembly.Authentication" 
-  Version="{VERSION}" />
-```
-
-For the placeholder `{VERSION}`, the latest stable version of the package that matches the app's shared framework version can be found in the package's **Version History** at [NuGet.org](https://www.nuget.org/packages/Microsoft.AspNetCore.Components.WebAssembly.Authentication).
+[!INCLUDE[](~/includes/package-reference.md)]
 
 ### `HttpClient` configuration
 
-In `Program.Main` (`Program.cs`), a named <xref:System.Net.Http.HttpClient> (`{APP ASSEMBLY}.ServerAPI`) is configured to supply <xref:System.Net.Http.HttpClient> instances that include access tokens when making requests to the server API:
+In `Program.cs`, a named <xref:System.Net.Http.HttpClient> (`{APP ASSEMBLY}.ServerAPI`) is configured to supply <xref:System.Net.Http.HttpClient> instances that include access tokens when making requests to the server API:
 
 ```csharp
 builder.Services.AddHttpClient("{APP ASSEMBLY}.ServerAPI", 
@@ -306,7 +300,7 @@ public class CustomUserFactory
     {
     }
 
-    public async override ValueTask<ClaimsPrincipal> CreateUserAsync(
+    public override async ValueTask<ClaimsPrincipal> CreateUserAsync(
         RemoteUserAccount account,
         RemoteAuthenticationUserOptions options)
     {
@@ -348,7 +342,7 @@ public class CustomUserFactory
 }
 ```
 
-In the **`Client`** app, register the factory in `Program.Main` (`Program.cs`):
+In the **`Client`** app, register the factory in `Program.cs`:
 
 ```csharp
 builder.Services.AddApiAuthorization()
@@ -435,14 +429,14 @@ public class ProfileService : IProfileService
 }
 ```
 
-In the **`Server`** app, register the Profile Service in `Startup.ConfigureServices`:
+In the **`Server`** app, register the Profile Service in `Program.cs`:
 
 ```csharp
 using Duende.IdentityServer.Services;
 
 ...
 
-services.AddTransient<IProfileService, ProfileService>();
+builder.Services.AddTransient<IProfileService, ProfileService>();
 
 JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Remove("role");
 ```
@@ -505,7 +499,7 @@ To configure an app, Azure App Service, and Azure Key Vault to host with a custo
    For more information on Azure Key Vault certificates, see [Azure Key Vault: Certificates](/azure/key-vault/certificates/).
 1. Create a new Azure Key Vault or use an existing key vault in your Azure subscription.
 1. In the key vault's **Certificates** area, import the PFX site certificate. Record the certificate's thumbprint, which is used in the app's configuration later.
-1. In Azure Key Vault, generate a new self-signed certificate for Identity Server token signing. Give the certificate a **Certificate Name** and **Subject**. The **Subject** is specified as `CN={COMMON NAME}`, where the `{COMMON NAME}` placeholder is the certificate's common name. The common name can be any alphanumeric string. For example, `CN=IdentityServerSigning` is a valid certificate **Subject**. Use the default **Advanced Policy Configuration** settings. Record the certificate's thumbprint, which is used in the app's configuration later.
+1. In Azure Key Vault, generate a new self-signed certificate for Identity Server token signing. Give the certificate a **Certificate Name** and **Subject**. The **Subject** is specified as `CN={COMMON NAME}`, where the `{COMMON NAME}` placeholder is the certificate's common name. The common name can be any alphanumeric string. For example, `CN=IdentityServerSigning` is a valid certificate **Subject**. In **Issuance Policy** > **Advanced Policy Configuration**, use the default settings. Record the certificate's thumbprint, which is used in the app's configuration later.
 1. Navigate to Azure App Service in the Azure portal and create a new App Service with the following configuration:
    * **Publish** set to `Code`.
    * **Runtime stack** set to the app's runtime.
@@ -515,7 +509,7 @@ To configure an app, Azure App Service, and Azure Key Vault to host with a custo
    * Value: `57443A552A46DB...D55E28D412B943565,29F43A772CB6AF...1D04F0C67F85FB0B1`
 
    In the Azure portal, saving app settings is a two-step process: Save the `WEBSITE_LOAD_CERTIFICATES` key-value setting, then select the **Save** button at the top of the blade.
-1. Select the app's **TLS/SSL settings**. Select **Private Key Certificates (.pfx)**. Use the **Import Key Vault Certificate** process twice to import both the site's certificate for HTTPS communication and the site's self-signed Identity Server token signing certificate.
+1. Select the app's **TLS/SSL settings**. Select **Private Key Certificates (.pfx)**. Use the **Import Key Vault Certificate** process. **Use the process _twice_ to import both the site's certificate for HTTPS communication and the site's self-signed Identity Server token signing certificate.**
 1. Navigate to the **Custom domains** blade. At your domain registrar's website, use the **IP address** and **Custom Domain Verification ID** to configure the domain. A typical domain configuration includes:
    * An **A Record** with a **Host** of `@` and a value of the IP address from the Azure portal.
    * A **TXT Record** with a **Host** of `asuid` and the value of the verification ID generated by Azure and provided by the Azure portal.
@@ -564,7 +558,7 @@ We recommend using a new in-private or incognito browser window for each app tes
 
 When App Service configuration is changed in the Azure portal, the updates generally take effect quickly but aren't instant. Sometimes, you must wait a short period for an App Service to restart in order for a configuration change to take effect.
 
-If troubleshooting a certificate loading problem, execute the following command in an Azure portal [Kudu](https://github.com/projectkudu/kudu/wiki/Accessing-the-kudu-service) PowerShell command shell. The command provides a list of certificates that the app can access from the `CurrentUser` > `My` certificate store. The output includes certificate subjects and thumbprints useful when debugging an app:
+If troubleshooting an Identity Server key-signing certificate loading problem, execute the following command in an Azure portal [Kudu](https://github.com/projectkudu/kudu/wiki/Accessing-the-kudu-service) PowerShell command shell. The command provides a list of certificates that the app can access from the `CurrentUser` > `My` certificate store. The output includes certificate subjects and thumbprints useful when debugging an app:
 
 ```powershell
 Get-ChildItem -path Cert:\CurrentUser\My -Recurse | Format-List DnsNameList, Subject, Thumbprint, EnhancedKeyUsageList
@@ -583,9 +577,9 @@ Get-ChildItem -path Cert:\CurrentUser\My -Recurse | Format-List DnsNameList, Sub
   * Additional scenarios and use cases, including manual scheme configuration, request path changes for correct request routing, and forwarding the request scheme for Linux and non-IIS reverse proxies.
 * [Duende Identity Server](https://docs.duendesoftware.com)
 
-::: moniker-end
+:::moniker-end
 
-::: moniker range=">= aspnetcore-5.0 < aspnetcore-6.0"
+:::moniker range=">= aspnetcore-5.0 < aspnetcore-6.0"
 
 This article explains how to create a [hosted Blazor WebAssembly solution](xref:blazor/hosting-models#blazor-webassembly) that uses [IdentityServer](https://identityserver.io/) to authenticate users and API calls.
 
@@ -744,19 +738,13 @@ The placeholder `{APP ASSEMBLY}` is the app's assembly name (for example, `Blazo
 
 When an app is created to use Individual User Accounts (`Individual`), the app automatically receives a package reference for the [`Microsoft.AspNetCore.Components.WebAssembly.Authentication`](https://www.nuget.org/packages/Microsoft.AspNetCore.Components.WebAssembly.Authentication) package in the app's project file. The package provides a set of primitives that help the app authenticate users and obtain tokens to call protected APIs.
 
-If adding authentication to an app, manually add the package to the app's project file:
+If adding authentication to an app, manually add the [`Microsoft.AspNetCore.Components.WebAssembly.Authentication`](https://www.nuget.org/packages/Microsoft.AspNetCore.Components.WebAssembly.Authentication) package to the app.
 
-```xml
-<PackageReference 
-  Include="Microsoft.AspNetCore.Components.WebAssembly.Authentication" 
-  Version="{VERSION}" />
-```
-
-For the placeholder `{VERSION}`, the latest stable version of the package that matches the app's shared framework version can be found in the package's **Version History** at [NuGet.org](https://www.nuget.org/packages/Microsoft.AspNetCore.Components.WebAssembly.Authentication).
+[!INCLUDE[](~/includes/package-reference.md)]
 
 ### `HttpClient` configuration
 
-In `Program.Main` (`Program.cs`), a named <xref:System.Net.Http.HttpClient> (`{APP ASSEMBLY}.ServerAPI`) is configured to supply <xref:System.Net.Http.HttpClient> instances that include access tokens when making requests to the server API:
+In `Program.cs`, a named <xref:System.Net.Http.HttpClient> (`{APP ASSEMBLY}.ServerAPI`) is configured to supply <xref:System.Net.Http.HttpClient> instances that include access tokens when making requests to the server API:
 
 ```csharp
 builder.Services.AddHttpClient("{APP ASSEMBLY}.ServerAPI", 
@@ -877,7 +865,7 @@ public class CustomUserFactory
     {
     }
 
-    public async override ValueTask<ClaimsPrincipal> CreateUserAsync(
+    public override async ValueTask<ClaimsPrincipal> CreateUserAsync(
         RemoteUserAccount account,
         RemoteAuthenticationUserOptions options)
     {
@@ -919,7 +907,7 @@ public class CustomUserFactory
 }
 ```
 
-In the **`Client`** app, register the factory in `Program.Main` (`Program.cs`):
+In the **`Client`** app, register the factory in `Program.cs`:
 
 ```csharp
 builder.Services.AddApiAuthorization()
@@ -1130,7 +1118,7 @@ To configure an app, Azure App Service, and Azure Key Vault to host with a custo
 
 1. Create a new Azure Key Vault or use an existing key vault in your Azure subscription.
 
-1. In Azure Key Vault, generate a new self-signed certificate for Identity Server token signing. Give the certificate a **Certificate Name** and **Subject**. The **Subject** is specified as `CN={COMMON NAME}`, where the `{COMMON NAME}` placeholder is the certificate's common name. The common name can be any alphanumeric string. For example, `CN=IdentityServerSigning` is a valid certificate **Subject**. Use the default **Advanced Policy Configuration** settings.
+1. In Azure Key Vault, generate a new self-signed certificate for Identity Server token signing. Give the certificate a **Certificate Name** and **Subject**. The **Subject** is specified as `CN={COMMON NAME}`, where the `{COMMON NAME}` placeholder is the certificate's common name. The common name can be any alphanumeric string. For example, `CN=IdentityServerSigning` is a valid certificate **Subject**. In **Issuance Policy** > **Advanced Policy Configuration**, use the default settings.
 
    To create the certificate, use one of the following approaches or any other suitable tool or online service:
 
@@ -1177,7 +1165,7 @@ To configure an app, Azure App Service, and Azure Key Vault to host with a custo
    },
    ```
 
-   If troubleshooting a certificate loading problem on Windows App Service, execute the following command in an Azure portal [Kudu](https://github.com/projectkudu/kudu/wiki/Accessing-the-kudu-service) PowerShell command shell. The command provides a list of certificates that the app can access from the `CurrentUser` > `My` certificate store. The output includes certificate subjects and thumbprints useful when debugging an app:
+   If troubleshooting an Identity Server key-signing certificate loading problem, execute the following command in an Azure portal [Kudu](https://github.com/projectkudu/kudu/wiki/Accessing-the-kudu-service) PowerShell command shell. The command provides a list of certificates that the app can access from the `CurrentUser` > `My` certificate store. The output includes certificate subjects and thumbprints useful when debugging an app:
 
    ```powershell
    Get-ChildItem -path Cert:\CurrentUser\My -Recurse | Format-List DnsNameList, Subject, Thumbprint, EnhancedKeyUsageList
@@ -1280,7 +1268,7 @@ To configure an app, Azure App Service, and Azure Key Vault to host with a custo
 
    In the Azure portal, saving app settings is a two-step process: Save the `WEBSITE_LOAD_CERTIFICATES` key-value setting, then select the **Save** button at the top of the blade.
 
-1. Select the app's **TLS/SSL settings**. Select **Private Key Certificates (.pfx)**. Use the **Import Key Vault Certificate** process to import the site's certificate for HTTPS communication.
+1. Select the app's **TLS/SSL settings**. Select **Private Key Certificates (.pfx)**. Use the **Import Key Vault Certificate** process to import the site's certificate for HTTPS communication. **If two certificates are used by the app, one for using a custom domain and one for Identity Server key signing, both certificates must be imported from Azure Key Vault using this process.**
 
 1. Navigate to the **Custom domains** blade. At your domain registrar's website, use the **IP address** and **Custom Domain Verification ID** to configure the domain. A typical domain configuration includes:
 
@@ -1306,7 +1294,7 @@ We recommend using a new in-private or incognito browser window for each app tes
 
 When App Service configuration is changed in the Azure portal, the updates generally take effect quickly but aren't instant. Sometimes, you must wait a short period for an App Service to restart in order for a configuration change to take effect.
 
-If troubleshooting a certificate loading problem on Windows App Service, execute the following command in an Azure portal [Kudu](https://github.com/projectkudu/kudu/wiki/Accessing-the-kudu-service) PowerShell command shell. The command provides a list of certificates that the app can access from the `CurrentUser` > `My` certificate store. The output includes certificate subjects and thumbprints useful when debugging an app:
+If troubleshooting an Identity Server key-signing certificate loading problem, execute the following command in an Azure portal [Kudu](https://github.com/projectkudu/kudu/wiki/Accessing-the-kudu-service) PowerShell command shell. The command provides a list of certificates that the app can access from the `CurrentUser` > `My` certificate store. The output includes certificate subjects and thumbprints useful when debugging an app:
 
 ```powershell
 Get-ChildItem -path Cert:\CurrentUser\My -Recurse | Format-List DnsNameList, Subject, Thumbprint, EnhancedKeyUsageList
@@ -1324,9 +1312,9 @@ Get-ChildItem -path Cert:\CurrentUser\My -Recurse | Format-List DnsNameList, Sub
   * Using Forwarded Headers Middleware to preserve HTTPS scheme information across proxy servers and internal networks.
   * Additional scenarios and use cases, including manual scheme configuration, request path changes for correct request routing, and forwarding the request scheme for Linux and non-IIS reverse proxies.
 
-::: moniker-end
+:::moniker-end
 
-::: moniker range="< aspnetcore-5.0"
+:::moniker range="< aspnetcore-5.0"
 
 This article explains how to create a [hosted Blazor WebAssembly solution](xref:blazor/hosting-models#blazor-webassembly) that uses [IdentityServer](https://identityserver.io/) to authenticate users and API calls.
 
@@ -1485,19 +1473,13 @@ The placeholder `{APP ASSEMBLY}` is the app's assembly name (for example, `Blazo
 
 When an app is created to use Individual User Accounts (`Individual`), the app automatically receives a package reference for the [`Microsoft.AspNetCore.Components.WebAssembly.Authentication`](https://www.nuget.org/packages/Microsoft.AspNetCore.Components.WebAssembly.Authentication) package in the app's project file. The package provides a set of primitives that help the app authenticate users and obtain tokens to call protected APIs.
 
-If adding authentication to an app, manually add the package to the app's project file:
+If adding authentication to an app, manually add the [`Microsoft.AspNetCore.Components.WebAssembly.Authentication`](https://www.nuget.org/packages/Microsoft.AspNetCore.Components.WebAssembly.Authentication) package to the app.
 
-```xml
-<PackageReference 
-  Include="Microsoft.AspNetCore.Components.WebAssembly.Authentication" 
-  Version="{VERSION}" />
-```
-
-For the placeholder `{VERSION}`, the latest stable version of the package that matches the app's shared framework version can be found in the package's **Version History** at [NuGet.org](https://www.nuget.org/packages/Microsoft.AspNetCore.Components.WebAssembly.Authentication).
+[!INCLUDE[](~/includes/package-reference.md)]
 
 ### `HttpClient` configuration
 
-In `Program.Main` (`Program.cs`), a named <xref:System.Net.Http.HttpClient> (`{APP ASSEMBLY}.ServerAPI`) is configured to supply <xref:System.Net.Http.HttpClient> instances that include access tokens when making requests to the server API:
+In `Program.cs`, a named <xref:System.Net.Http.HttpClient> (`{APP ASSEMBLY}.ServerAPI`) is configured to supply <xref:System.Net.Http.HttpClient> instances that include access tokens when making requests to the server API:
 
 ```csharp
 builder.Services.AddHttpClient("{APP ASSEMBLY}.ServerAPI", 
@@ -1618,7 +1600,7 @@ public class CustomUserFactory
     {
     }
 
-    public async override ValueTask<ClaimsPrincipal> CreateUserAsync(
+    public override async ValueTask<ClaimsPrincipal> CreateUserAsync(
         RemoteUserAccount account,
         RemoteAuthenticationUserOptions options)
     {
@@ -1660,7 +1642,7 @@ public class CustomUserFactory
 }
 ```
 
-In the **`Client`** app, register the factory in `Program.Main` (`Program.cs`):
+In the **`Client`** app, register the factory in `Program.cs`:
 
 ```csharp
 builder.Services.AddApiAuthorization()
@@ -1817,7 +1799,7 @@ To configure an app, Azure App Service, and Azure Key Vault to host with a custo
    For more information on Azure Key Vault certificates, see [Azure Key Vault: Certificates](/azure/key-vault/certificates/).
 1. Create a new Azure Key Vault or use an existing key vault in your Azure subscription.
 1. In the key vault's **Certificates** area, import the PFX site certificate. Record the certificate's thumbprint, which is used in the app's configuration later.
-1. In Azure Key Vault, generate a new self-signed certificate for Identity Server token signing. Give the certificate a **Certificate Name** and **Subject**. The **Subject** is specified as `CN={COMMON NAME}`, where the `{COMMON NAME}` placeholder is the certificate's common name. The common name can be any alphanumeric string. For example, `CN=IdentityServerSigning` is a valid certificate **Subject**. Use the default **Advanced Policy Configuration** settings. Record the certificate's thumbprint, which is used in the app's configuration later.
+1. In Azure Key Vault, generate a new self-signed certificate for Identity Server token signing. Give the certificate a **Certificate Name** and **Subject**. The **Subject** is specified as `CN={COMMON NAME}`, where the `{COMMON NAME}` placeholder is the certificate's common name. The common name can be any alphanumeric string. For example, `CN=IdentityServerSigning` is a valid certificate **Subject**. In **Issuance Policy** > **Advanced Policy Configuration**, use the default settings. Record the certificate's thumbprint, which is used in the app's configuration later.
 1. Navigate to Azure App Service in the Azure portal and create a new App Service with the following configuration:
    * **Publish** set to `Code`.
    * **Runtime stack** set to the app's runtime.
@@ -1827,7 +1809,7 @@ To configure an app, Azure App Service, and Azure Key Vault to host with a custo
    * Value: `57443A552A46DB...D55E28D412B943565,29F43A772CB6AF...1D04F0C67F85FB0B1`
 
    In the Azure portal, saving app settings is a two-step process: Save the `WEBSITE_LOAD_CERTIFICATES` key-value setting, then select the **Save** button at the top of the blade.
-1. Select the app's **TLS/SSL settings**. Select **Private Key Certificates (.pfx)**. Use the **Import Key Vault Certificate** process twice to import both the site's certificate for HTTPS communication and the site's self-signed Identity Server token signing certificate.
+1. Select the app's **TLS/SSL settings**. Select **Private Key Certificates (.pfx)**. Use the **Import Key Vault Certificate** process. **Use the process _twice_ to import the site's certificate for HTTPS communication and the site's self-signed Identity Server token signing certificate.**
 1. Navigate to the **Custom domains** blade. At your domain registrar's website, use the **IP address** and **Custom Domain Verification ID** to configure the domain. A typical domain configuration includes:
    * An **A Record** with a **Host** of `@` and a value of the IP address from the Azure portal.
    * A **TXT Record** with a **Host** of `asuid` and the value of the verification ID generated by Azure and provided by the Azure portal.
@@ -1876,7 +1858,7 @@ We recommend using a new in-private or incognito browser window for each app tes
 
 When App Service configuration is changed in the Azure portal, the updates generally take effect quickly but aren't instant. Sometimes, you must wait a short period for an App Service to restart in order for a configuration change to take effect.
 
-If troubleshooting a certificate loading problem, execute the following command in an Azure portal [Kudu](https://github.com/projectkudu/kudu/wiki/Accessing-the-kudu-service) PowerShell command shell. The command provides a list of certificates that the app can access from the `CurrentUser` > `My` certificate store. The output includes certificate subjects and thumbprints useful when debugging an app:
+If troubleshooting an Identity Server key-signing certificate loading problem, execute the following command in an Azure portal [Kudu](https://github.com/projectkudu/kudu/wiki/Accessing-the-kudu-service) PowerShell command shell. The command provides a list of certificates that the app can access from the `CurrentUser` > `My` certificate store. The output includes certificate subjects and thumbprints useful when debugging an app:
 
 ```powershell
 Get-ChildItem -path Cert:\CurrentUser\My -Recurse | Format-List DnsNameList, Subject, Thumbprint, EnhancedKeyUsageList
@@ -1894,4 +1876,4 @@ Get-ChildItem -path Cert:\CurrentUser\My -Recurse | Format-List DnsNameList, Sub
   * Using Forwarded Headers Middleware to preserve HTTPS scheme information across proxy servers and internal networks.
   * Additional scenarios and use cases, including manual scheme configuration, request path changes for correct request routing, and forwarding the request scheme for Linux and non-IIS reverse proxies.
 
-::: moniker-end
+:::moniker-end

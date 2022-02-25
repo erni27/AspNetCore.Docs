@@ -6,7 +6,7 @@ monikerRange: '>= aspnetcore-2.1'
 ms.author: bradyg
 ms.custom: mvc
 ms.date: 04/08/2020
-no-loc: [Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
+no-loc: ["Blazor Hybrid", Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
 uid: signalr/troubleshoot
 ---
 # Troubleshoot connection errors
@@ -37,7 +37,7 @@ WebSocket connection to 'wss://xxx/HubName' failed: Error during WebSocket hands
 Error: Failed to start the connection: Error: There was an error with the transport.
 ```
 
-This error is usually caused by a client using only the WebSockets transport but the WebSockets protocol is not enabled on the server.
+This error is usually caused by a client using only the WebSockets transport but the WebSocket protocol isn't enabled on the server.
 
 ### Response code 307
 

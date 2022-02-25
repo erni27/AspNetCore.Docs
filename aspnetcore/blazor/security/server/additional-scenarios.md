@@ -5,13 +5,13 @@ description: Learn how to configure Blazor Server for additional security scenar
 monikerRange: '>= aspnetcore-3.1'
 ms.author: riande
 ms.custom: mvc
-ms.date: 10/06/2020
-no-loc: [Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
+ms.date: 11/09/2021
+no-loc: ["Blazor Hybrid", Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
 uid: blazor/security/server/additional-scenarios
 ---
 # ASP.NET Core Blazor Server additional security scenarios
 
-::: moniker range=">= aspnetcore-6.0"
+:::moniker range=">= aspnetcore-6.0"
 
 ## Pass tokens to a Blazor Server app
 
@@ -25,7 +25,8 @@ using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 
 ...
 
-services.Configure<OpenIdConnectOptions>(AzureADDefaults.OpenIdScheme, options =>
+services.Configure<OpenIdConnectOptions>(
+    OpenIdConnectDefaults.AuthenticationScheme, options =>
 {
     options.ResponseType = OpenIdConnectResponseType.Code;
     options.SaveTokens = true;
@@ -46,14 +47,14 @@ public class TokenProvider
 }
 ```
 
-In `Startup.ConfigureServices`, add services for:
+In `Program.cs`, add services for:
 
 * `IHttpClientFactory`
 * `TokenProvider`
 
 ```csharp
-services.AddHttpClient();
-services.AddScoped<TokenProvider>();
+builder.Services.AddHttpClient();
+builder.Services.AddScoped<TokenProvider>();
 ```
 
 Define a class to pass in the initial app state with the access and refresh tokens:
@@ -143,19 +144,23 @@ public class WeatherForecastService
 
 ## Set the authentication scheme
 
-For an app that uses more than one Authentication Middleware and thus has more than one authentication scheme, the scheme that Blazor uses can be explicitly set in the endpoint configuration of `Startup.Configure`. The following example sets the Azure Active Directory scheme:
+For an app that uses more than one Authentication Middleware and thus has more than one authentication scheme, the scheme that Blazor uses can be explicitly set in the endpoint configuration of `Program.cs`. The following example sets the OpenID Connect (OIDC) scheme:
 
 ```csharp
-endpoints.MapBlazorHub().RequireAuthorization(
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+
+...
+
+app.MapBlazorHub().RequireAuthorization(
     new AuthorizeAttribute 
     {
-        AuthenticationSchemes = AzureADDefaults.AuthenticationScheme
+        AuthenticationSchemes = OpenIdConnectDefaults.AuthenticationScheme
     });
 ```
 
-::: moniker-end
+:::moniker-end
 
-::: moniker range=">= aspnetcore-5.0 < aspnetcore-6.0"
+:::moniker range=">= aspnetcore-5.0 < aspnetcore-6.0"
 
 ## Pass tokens to a Blazor Server app
 
@@ -169,7 +174,8 @@ using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 
 ...
 
-services.Configure<OpenIdConnectOptions>(AzureADDefaults.OpenIdScheme, options =>
+services.Configure<OpenIdConnectOptions>(
+    OpenIdConnectDefaults.AuthenticationScheme, options =>
 {
     options.ResponseType = OpenIdConnectResponseType.Code;
     options.SaveTokens = true;
@@ -287,19 +293,23 @@ public class WeatherForecastService
 
 ## Set the authentication scheme
 
-For an app that uses more than one Authentication Middleware and thus has more than one authentication scheme, the scheme that Blazor uses can be explicitly set in the endpoint configuration of `Startup.Configure`. The following example sets the Azure Active Directory scheme:
+For an app that uses more than one Authentication Middleware and thus has more than one authentication scheme, the scheme that Blazor uses can be explicitly set in the endpoint configuration of `Startup.Configure`. The following example sets the OpenID Connect (OIDC) scheme:
 
 ```csharp
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+
+...
+
 endpoints.MapBlazorHub().RequireAuthorization(
     new AuthorizeAttribute 
     {
-        AuthenticationSchemes = AzureADDefaults.AuthenticationScheme
+        AuthenticationSchemes = OpenIdConnectDefaults.AuthenticationScheme
     });
 ```
 
-::: moniker-end
+:::moniker-end
 
-::: moniker range="< aspnetcore-5.0"
+:::moniker range="< aspnetcore-5.0"
 
 ## Pass tokens to a Blazor Server app
 
@@ -510,4 +520,4 @@ If tacking on a segment to the authority isn't appropriate for the app's OIDC pr
 
 You can find the App ID URI to use in the OIDC provider app registration description.
 
-::: moniker-end
+:::moniker-end

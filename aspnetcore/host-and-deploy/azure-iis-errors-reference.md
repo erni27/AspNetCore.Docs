@@ -6,13 +6,13 @@ monikerRange: '>= aspnetcore-2.1'
 ms.author: riande
 ms.custom: mvc
 ms.date: 02/07/2020
-no-loc: [Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
+no-loc: ["Blazor Hybrid", Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
 uid: host-and-deploy/azure-iis-errors-reference
 ---
 
 # Common errors reference for Azure App Service and IIS with ASP.NET Core
 
-::: moniker range=">= aspnetcore-2.2"
+:::moniker range=">= aspnetcore-2.2"
 
 This topic describes common errors and provides troubleshooting advice for specific errors when hosting ASP.NET Core apps on Azure Apps Service and IIS.
 
@@ -28,7 +28,7 @@ Collect the following information:
     1. After the **Event Viewer** opens, expand **Windows Logs** > **Application** in the sidebar.
 * ASP.NET Core Module stdout and debug log entries
   * Azure App Service: See <xref:test/troubleshoot-azure-iis>.
-  * IIS: Follow the instructions in the [Log creation and redirection](xref:host-and-deploy/aspnet-core-module#log-creation-and-redirection) and [Enhanced diagnostic logs](xref:host-and-deploy/aspnet-core-module#enhanced-diagnostic-logs) sections of the ASP.NET Core Module topic.
+  * IIS: Follow the instructions in the [Log creation and redirection](xref:host-and-deploy/aspnet-core-module#log-creation-and-redirection) and [Enhanced diagnostic logs](xref:host-and-deploy/iis/logging-and-diagnostics#enhanced-diagnostic-logs) sections of the ASP.NET Core Module topic.
 
 Compare error information to the following common errors. If a match is found, follow the troubleshooting advice.
 
@@ -298,9 +298,9 @@ For more information, see the following topics:
 * <xref:test/troubleshoot-azure-iis>
 * <xref:test/troubleshoot>
 
-::: moniker-end
+:::moniker-end
 
-::: moniker range="< aspnetcore-2.2"
+:::moniker range="< aspnetcore-2.2"
 
 This topic describes common errors and provides troubleshooting advice for specific errors when hosting ASP.NET Core apps on Azure Apps Service and IIS.
 
@@ -316,7 +316,7 @@ Collect the following information:
     1. After the **Event Viewer** opens, expand **Windows Logs** > **Application** in the sidebar.
 * ASP.NET Core Module stdout and debug log entries
   * Azure App Service: See <xref:test/troubleshoot-azure-iis>.
-  * IIS: Follow the instructions in the [Log creation and redirection](xref:host-and-deploy/aspnet-core-module#log-creation-and-redirection) and [Enhanced diagnostic logs](xref:host-and-deploy/aspnet-core-module#enhanced-diagnostic-logs) sections of the ASP.NET Core Module topic.
+  * IIS: Follow the instructions in the [Log creation and redirection](xref:host-and-deploy/aspnet-core-module#log-creation-and-redirection) and [Enhanced diagnostic logs](xref:host-and-deploy/iis/logging-and-diagnostics#enhanced-diagnostic-logs) sections of the ASP.NET Core Module topic.
 
 Compare error information to the following common errors. If a match is found, follow the troubleshooting advice.
 
@@ -550,4 +550,4 @@ For more information, see the following topics:
 * <xref:test/troubleshoot-azure-iis>
 * <xref:test/troubleshoot>
 
-::: moniker-end
+:::moniker-end

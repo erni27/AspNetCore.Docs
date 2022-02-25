@@ -5,7 +5,7 @@ description: Discover how ASP.NET Core supports the Open Web Interface for .NET 
 ms.author: riande
 ms.custom: H1Hack27Feb2017
 ms.date: 2/8/2021
-no-loc: [Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
+no-loc: ["Blazor Hybrid", Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
 uid: fundamentals/owin
 ---
 # Open Web Interface for .NET (OWIN) with ASP.NET Core
@@ -202,7 +202,6 @@ OWIN depends on an `IDictionary<string,object>` object to communicate informatio
 | server.RemotePort | `String` | |     
 | server.LocalIpAddress  | `String` | |    
 | server.LocalPort  | `String` | |    
-| server.IsLocal  | `bool` | |    
 | server.OnSendingHeaders  | `Action<Action<object>,object>` | |
 
 ### SendFiles v0.3.0

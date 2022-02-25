@@ -5,14 +5,14 @@ description: Part 5 of tutorial series on Razor Pages.
 ms.author: riande
 ms.date: 09/20/2020
 ms.custom: contperf-fy21q2
-no-loc: [Home, Privacy, Index, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
+no-loc: ["Blazor Hybrid", Home, Privacy, Index, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
 uid: tutorials/razor-pages/da1
 ---
 # Part 5, update the generated pages in an ASP.NET Core app
 
 By [Rick Anderson](https://twitter.com/RickAndMSFT)
 
-::: moniker range=">= aspnetcore-6.0"
+:::moniker range=">= aspnetcore-6.0"
 
 The scaffolded movie app has a good start, but the presentation isn't ideal. **ReleaseDate** should be two words, **Release Date**.
 
@@ -135,9 +135,9 @@ The HTTP GET methods in the Index, Create, and Delete Razor pages follow a simil
 > [Previous: Work with a database](xref:tutorials/razor-pages/sql)
 > [Next: Add search](xref:tutorials/razor-pages/search)
 
-::: moniker-end
+:::moniker-end
 
-::: moniker range="< aspnetcore-6.0"
+:::moniker range="< aspnetcore-6.0"
 
 The scaffolded movie app has a good start, but the presentation isn't ideal. **ReleaseDate** should be two words, **Release Date**.
 
@@ -260,4 +260,4 @@ The HTTP GET methods in the Index, Create, and Delete Razor pages follow a simil
 > [Previous: Work with a database](xref:tutorials/razor-pages/sql)
 > [Next: Add search](xref:tutorials/razor-pages/search)
 
-::: moniker-end
+:::moniker-end

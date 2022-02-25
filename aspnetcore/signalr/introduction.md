@@ -6,7 +6,7 @@ monikerRange: '>= aspnetcore-2.1'
 ms.author: bradyg
 ms.custom: mvc
 ms.date: 9/16/2021
-no-loc: [Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
+no-loc: ["Blazor Hybrid", Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
 uid: signalr/introduction
 ---
 # Introduction to ASP.NET Core SignalR
@@ -37,7 +37,7 @@ The source is hosted in a [SignalR repository on GitHub](https://github.com/dotn
 
 SignalR supports the following techniques for handling real-time communication (in order of graceful fallback):
 
-* [WebSockets](https://tools.ietf.org/html/rfc7118)
+* [WebSockets](xref:fundamentals/websockets)
 * Server-Sent Events
 * Long Polling
 
@@ -53,6 +53,7 @@ Hubs call client-side code by sending messages that contain the name and paramet
 
 ## Additional resources
 
+* [Microsoft Learn: Introduction to ASP.NET Core SignalR](/learn/modules/aspnet-core-signalr)
 * [Get started with SignalR for ASP.NET Core](xref:tutorials/signalr)
 * [Supported Platforms](xref:signalr/supported-platforms)
 * [Hubs](xref:signalr/hubs)

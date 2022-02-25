@@ -4,7 +4,7 @@ description: Migrate HTTP handlers and modules to ASP.NET Core middleware
 author: rick-anderson
 ms.author: riande
 ms.date: 12/07/2016
-no-loc: [Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
+no-loc: ["Blazor Hybrid", Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
 uid: migration/http-modules
 ---
 # Migrate HTTP handlers and modules to ASP.NET Core middleware
@@ -19,7 +19,7 @@ Before proceeding to ASP.NET Core middleware, let's first recap how HTTP modules
 
 **Handlers are:**
 
-* Classes that implement [IHttpHandler](/dotnet/api/system.web.ihttphandler)
+* Classes that implement <xref:System.Web.IHttpHandler>
 
 * Used to handle requests with a given file name or extension, such as *.report*
 
@@ -27,7 +27,7 @@ Before proceeding to ASP.NET Core middleware, let's first recap how HTTP modules
 
 **Modules are:**
 
-* Classes that implement [IHttpModule](/dotnet/api/system.web.ihttpmodule)
+* Classes that implement <xref:System.Web.IHttpModule>
 
 * Invoked for every request
 
@@ -55,16 +55,16 @@ In addition to modules, you can add handlers for the life cycle events to your *
 
 * Middleware are configured using code rather than in *Web.config*
 
-::: moniker range=">= aspnetcore-3.0"
+:::moniker range=">= aspnetcore-3.0"
 
 * [Pipeline branching](xref:fundamentals/middleware/index#branch-the-middleware-pipeline) lets you send requests to specific middleware, based on not only the URL but also on request headers, query strings, etc.
 
-::: moniker-end
-::: moniker range="< aspnetcore-3.0"
+:::moniker-end
+:::moniker range="< aspnetcore-3.0"
 
 * [Pipeline branching](xref:fundamentals/middleware/index#use-run-and-map) lets you send requests to specific middleware, based on not only the URL but also on request headers, query strings, etc.
 
-::: moniker-end
+:::moniker-end
 
 **Middleware are very similar to modules:**
 
@@ -242,7 +242,7 @@ You saw earlier that the `Invoke` method in your middleware takes a parameter of
 public async Task Invoke(HttpContext context)
 ```
 
-`HttpContext` has significantly changed in ASP.NET Core. This section shows how to translate the most commonly used properties of [System.Web.HttpContext](/dotnet/api/system.web.httpcontext) to the new `Microsoft.AspNetCore.Http.HttpContext`.
+`HttpContext` has significantly changed in ASP.NET Core. This section shows how to translate the most commonly used properties of <xref:System.Web.HttpContext?displayProperty=fullName> to the new `Microsoft.AspNetCore.Http.HttpContext`.
 
 ### HttpContext
 

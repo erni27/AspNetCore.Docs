@@ -5,16 +5,16 @@ description: Learn how to persist state in Blazor Server apps.
 monikerRange: '>= aspnetcore-3.1'
 ms.author: riande
 ms.custom: mvc
-ms.date: 10/29/2020
-no-loc: [Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
+ms.date: 11/09/2021
+no-loc: ["Blazor Hybrid", Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
 uid: blazor/state-management
 zone_pivot_groups: blazor-hosting-models
 ---
 # ASP.NET Core Blazor state management
 
-::: moniker range=">= aspnetcore-6.0"
+:::moniker range=">= aspnetcore-6.0"
 
-::: zone pivot="webassembly"
+:::zone pivot="webassembly"
 
 User state created in a Blazor WebAssembly app is held in the browser's memory.
 
@@ -117,9 +117,9 @@ Generally, `sessionStorage` is safer to use. `sessionStorage` avoids the risk th
 * <xref:blazor/call-web-api>
 * <xref:blazor/security/webassembly/index>
 
-::: zone-end
+:::zone-end
 
-::: zone pivot="server"
+:::zone pivot="server"
 
 Blazor Server is a stateful app framework. Most of the time, the app maintains a connection to the server. The user's state is held in the server's memory in a *circuit*. 
 
@@ -384,7 +384,7 @@ else
     private bool isLoaded;
 
     [Parameter]
-    public RenderFragment ChildContent { get; set; }
+    public RenderFragment? ChildContent { get; set; }
 
     public int CurrentCount { get; set; }
 
@@ -402,7 +402,7 @@ else
 }
 ```
 
-The `CounterStateProvider` component handles the loading phase by not rendering its child content until loading is complete.
+The `CounterStateProvider` component handles the loading phase by not rendering its child content until state loading is complete.
 
 To use the `CounterStateProvider` component, wrap an instance of the component around any other component that requires access to the counter state. To make the state accessible to all components in an app, wrap the `CounterStateProvider` component around the <xref:Microsoft.AspNetCore.Components.Routing.Router> in the `App` component (`App.razor`):
 
@@ -419,17 +419,20 @@ Wrapped components receive and can modify the persisted counter state. The follo
 ```razor
 @page "/counter"
 
-<p>Current count: <strong>@CounterStateProvider.CurrentCount</strong></p>
+<p>Current count: <strong>@CounterStateProvider?.CurrentCount</strong></p>
 <button @onclick="IncrementCount">Increment</button>
 
 @code {
     [CascadingParameter]
-    private CounterStateProvider CounterStateProvider { get; set; }
+    private CounterStateProvider? CounterStateProvider { get; set; }
 
     private async Task IncrementCount()
     {
-        CounterStateProvider.CurrentCount++;
-        await CounterStateProvider.SaveChangesAsync();
+        if (CounterStateProvider is not null)
+        {
+            CounterStateProvider.CurrentCount++;
+            await CounterStateProvider.SaveChangesAsync();
+        }
     }
 }
 ```
@@ -449,13 +452,13 @@ To persist many different state objects and consume different subsets of objects
 
 [!INCLUDE[](~/blazor/includes/state-container.md)]
 
-::: zone-end
+:::zone-end
 
-::: moniker-end
+:::moniker-end
 
-::: moniker range=">= aspnetcore-5.0 < aspnetcore-6.0"
+:::moniker range=">= aspnetcore-5.0 < aspnetcore-6.0"
 
-::: zone pivot="webassembly"
+:::zone pivot="webassembly"
 
 User state created in a Blazor WebAssembly app is held in the browser's memory.
 
@@ -558,9 +561,9 @@ Generally, `sessionStorage` is safer to use. `sessionStorage` avoids the risk th
 * <xref:blazor/call-web-api>
 * <xref:blazor/security/webassembly/index>
 
-::: zone-end
+:::zone-end
 
-::: zone pivot="server"
+:::zone pivot="server"
 
 Blazor Server is a stateful app framework. Most of the time, the app maintains a connection to the server. The user's state is held in the server's memory in a *circuit*. 
 
@@ -837,7 +840,7 @@ else
 }
 ```
 
-The `CounterStateProvider` component handles the loading phase by not rendering its child content until loading is complete.
+The `CounterStateProvider` component handles the loading phase by not rendering its child content until state loading is complete.
 
 To use the `CounterStateProvider` component, wrap an instance of the component around any other component that requires access to the counter state. To make the state accessible to all components in an app, wrap the `CounterStateProvider` component around the <xref:Microsoft.AspNetCore.Components.Routing.Router> in the `App` component (`App.razor`):
 
@@ -886,13 +889,13 @@ To persist many different state objects and consume different subsets of objects
 
 [!INCLUDE[](~/blazor/includes/state-container.md)]
 
-::: zone-end
+:::zone-end
 
-::: moniker-end
+:::moniker-end
 
-::: moniker range="< aspnetcore-5.0"
+:::moniker range="< aspnetcore-5.0"
 
-::: zone pivot="webassembly"
+:::zone pivot="webassembly"
 
 User state created in a Blazor WebAssembly app is held in the browser's memory.
 
@@ -995,9 +998,9 @@ Generally, `sessionStorage` is safer to use. `sessionStorage` avoids the risk th
 * <xref:blazor/call-web-api>
 * <xref:blazor/security/webassembly/index>
 
-::: zone-end
+:::zone-end
 
-::: zone pivot="server"
+:::zone pivot="server"
 
 Blazor Server is a stateful app framework. Most of the time, the app maintains a connection to the server. The user's state is held in the server's memory in a *circuit*. 
 
@@ -1097,7 +1100,7 @@ Third-party NuGet packages provide APIs for working with `localStorage` and `ses
 ASP.NET Core Protected Browser Storage leverages [ASP.NET Core Data Protection](xref:security/data-protection/introduction) for [`localStorage`](https://developer.mozilla.org/docs/Web/API/Window/localStorage) and [`sessionStorage`](https://developer.mozilla.org/docs/Web/API/Window/sessionStorage).
 
 > [!WARNING]
-> `Microsoft.AspNetCore.ProtectedBrowserStorage` is an unsupported, experimental package unsuitable for production use.
+> `Microsoft.AspNetCore.ProtectedBrowserStorage` is an unsupported, experimental package that isn't intended for production use.
 >
 > The package is only available for use in ASP.NET Core 3.1 Blazor Server apps.
 
@@ -1288,7 +1291,7 @@ else
 }
 ```
 
-The `CounterStateProvider` component handles the loading phase by not rendering its child content until loading is complete.
+The `CounterStateProvider` component handles the loading phase by not rendering its child content until state loading is complete.
 
 To use the `CounterStateProvider` component, wrap an instance of the component around any other component that requires access to the counter state. To make the state accessible to all components in an app, wrap the `CounterStateProvider` component around the <xref:Microsoft.AspNetCore.Components.Routing.Router> in the `App` component (`App.razor`):
 
@@ -1335,6 +1338,6 @@ To persist many different state objects and consume different subsets of objects
 
 [!INCLUDE[](~/blazor/includes/state-container.md)]
 
-::: zone-end
+:::zone-end
 
-::: moniker-end
+:::moniker-end

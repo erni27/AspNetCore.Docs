@@ -1,21 +1,23 @@
 ---
 title: "Tutorial: Get started with EF Core in an ASP.NET MVC web app"
-description: This page is the first in a series of tutorials that explain how to build the Contoso University sample EF/MVC app"
+description: "This page is the first in a series of tutorials that explain how to build the Contoso University sample EF/MVC app"
 author: rick-anderson
 ms.author: riande
 ms.custom: mvc
 ms.date: 11/06/2020
 ms.topic: tutorial
-no-loc: [Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
+no-loc: ["Blazor Hybrid", Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
 uid: data/ef-mvc/intro
 ---
 # Tutorial: Get started with EF Core in an ASP.NET MVC web app
 
 By [Tom Dykstra](https://github.com/tdykstra) and [Rick Anderson](https://twitter.com/RickAndMSFT)
 
-::: moniker range=">= aspnetcore-5.0"
+:::moniker range=">= aspnetcore-5.0"
 
 [!INCLUDE [RP better than MVC](~/includes/RP-EF/rp-over-mvc.md)]
+
+This tutorial has not been updated for ASP.NET Core 6. The ASP.NET Core 6 web templates use the new [minimal hosting model](xref:migration/50-to-60#new-hosting-model), which unifies `Startup.cs` and `Program.cs` into a single `Program.cs` file. Until this tutorial is updated, see <xref:data/ef-rp/intro> and <xref:tutorials/first-mvc-app/adding-model> on how to use EF with the new minimal hosting model. Updating the tutorial for ASP.NET Core 6 is tracked in [this GitHub issue](https://github.com/dotnet/AspNetCore.Docs/issues/13920).
 
 The Contoso University sample web app demonstrates how to create an ASP.NET Core MVC web app using Entity Framework (EF) Core and Visual Studio.
 
@@ -238,11 +240,11 @@ The preceding code checks if the database exists:
   * It is created and loaded with test data. It loads test data into arrays rather than `List<T>` collections to optimize performance.
 * If the database is found, it takes no action.
 
-Update *Program.cs* with the following code:
+Update `Program.cs` with the following code:
 
 [!code-csharp[Program file](intro/samples/5cu-snap/Program.cs?highlight=1-2,14-18,21-37)]
 
-*Program.cs* does the following on app startup:
+`Program.cs` does the following on app startup:
 
 * Get a database context instance from the dependency injection container.
 * Call the `DbInitializer.Initialize` method.
@@ -376,9 +378,9 @@ Advance to the next tutorial to learn how to perform basic CRUD (create, read, u
 > [!div class="nextstepaction"]
 > [Implement basic CRUD functionality](crud.md)
 
-::: moniker-end
+:::moniker-end
 
-::: moniker range="<= aspnetcore-3.1"
+:::moniker range="<= aspnetcore-3.1"
 
 [!INCLUDE [RP better than MVC](~/includes/RP-EF/rp-over-mvc.md)]
 
@@ -574,7 +576,7 @@ In the *Data* folder, create a new class file named *DbInitializer.cs* and repla
 
 The code checks if there are any students in the database, and if not, it assumes the database is new and needs to be seeded with test data. It loads test data into arrays rather than `List<T>` collections to optimize performance.
 
-In *Program.cs*, modify the `Main` method to do the following on application startup:
+In `Program.cs`, modify the `Main` method to do the following on application startup:
 
 * Get a database context instance from the dependency injection container.
 * Call the seed method, passing to it the context.
@@ -696,4 +698,4 @@ Advance to the next tutorial to learn how to perform basic CRUD (create, read, u
 > [!div class="nextstepaction"]
 > [Implement basic CRUD functionality](crud.md)
 
-::: moniker-end
+:::moniker-end

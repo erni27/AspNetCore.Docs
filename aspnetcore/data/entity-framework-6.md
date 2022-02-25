@@ -5,12 +5,12 @@ description: Entity Framework 6.3 and later works with ASP.NET Core 3.1 and late
 ms.author: riande
 ms.custom: mvc
 ms.date: 7/14/2020
-no-loc: [Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Identity", "Let's Encrypt", Razor, SignalR]
+no-loc: ["Blazor Hybrid", Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Identity", "Let's Encrypt", Razor, SignalR]
 uid: data/entity-framework-6
 ---
 # ASP.NET Core and Entity Framework 6
 
-::: moniker range=">= aspnetcore-3.0"
+:::moniker range=">= aspnetcore-3.0"
 
 By [Patrick Goode](https://github.com/attrib75)
 
@@ -22,9 +22,9 @@ By [Patrick Goode](https://github.com/attrib75)
 
 * [Entity Framework - Code-Based Configuration](/ef/ef6/fundamentals/configuring/code-based)
 
-::: moniker-end
+:::moniker-end
 
-::: moniker range="< aspnetcore-3.0"
+:::moniker range="< aspnetcore-3.0"
 
 By [Paweł Grudzień](https://github.com/pgrudzien12) and [Damien Pontifex](https://github.com/DamienPontifex)
 
@@ -97,4 +97,4 @@ This sample can be created from scratch by the following steps in Visual Studio:
 
 * In the Core project, add a controller and view(s) to verify that you can read and write data. (Note that ASP.NET Core MVC scaffolding won't work with the EF6 context referenced from the class library.)
 
-::: moniker-end
+:::moniker-end

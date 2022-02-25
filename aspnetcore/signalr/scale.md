@@ -6,7 +6,7 @@ monikerRange: '>= aspnetcore-2.1'
 ms.author: bradyg
 ms.custom: mvc
 ms.date: 01/17/2020
-no-loc: [Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
+no-loc: ["Blazor Hybrid", Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
 uid: signalr/scale
 ---
 # ASP.NET Core SignalR hosting and scaling
@@ -25,7 +25,7 @@ SignalR requires that all HTTP requests for a specific connection be handled by 
 
 In all other circumstances (including when the Redis backplane is used), the server environment must be configured for sticky sessions.
 
-For guidance on configuring Azure App Service for SignalR, see <xref:signalr/publish-to-azure-web-app>.
+For guidance on configuring Azure App Service for SignalR, see <xref:signalr/publish-to-azure-web-app>. For guidance on configuring sticky sessions for Blazor apps that use the [Azure SignalR Service](#azure-signalr-service), see <xref:blazor/host-and-deploy/server#signalr-configuration>.
 
 ## TCP connection resources
 
@@ -111,7 +111,7 @@ http {
   map $http_connection $connection_upgrade {
     "~*Upgrade" $http_connection;
     default keep-alive;
-}
+  }
 
   server {
     listen 80;
@@ -191,6 +191,7 @@ For more information about ASP.NET Core with Nginx see the following article:
 * [NCache](https://www.alachisoft.com/ncache/asp-net-core-signalr.html)
 * [Orleans](https://github.com/OrleansContrib/SignalR.Orleans)
 * [Rebus](https://github.com/rebus-org/Rebus.SignalR)
+* [SQL Server](https://github.com/IntelliTect/IntelliTect.AspNetCore.SignalR.SqlServer)
 
 ## Next steps
 

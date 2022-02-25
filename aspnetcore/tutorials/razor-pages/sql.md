@@ -3,16 +3,16 @@ title: Part 4, work with a database
 author: rick-anderson
 description: Part 4 of tutorial series on Razor Pages.
 ms.author: riande
-ms.date: 01/05/2021
+ms.date: 10/13/2021
 ms.custom: contperf-fy21q2
-no-loc: [Home, Privacy, Index, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
+no-loc: ["Blazor Hybrid", Home, Privacy, Index, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
 uid: tutorials/razor-pages/sql
 ---
 # Part 4 of tutorial series on Razor Pages
 
 By [Rick Anderson](https://twitter.com/RickAndMSFT) and [Joe Audette](https://twitter.com/joeaudette)
 
-::: moniker range="= aspnetcore-5.0"
+:::moniker range="= aspnetcore-5.0"
 
 [View or download sample code](https://github.com/dotnet/AspNetCore.Docs/tree/main/aspnetcore/tutorials/razor-pages/razor-pages-start/sample/RazorPagesMovie50) ([how to download](xref:index#how-to-download-a-sample)).
 
@@ -116,7 +116,7 @@ if (context.Movie.Any())
 
 ### Add the seed initializer
 
-Replace the contents of the *Program.cs* with the following code:
+Replace the contents of the `Program.cs` with the following code:
 
 [!code-csharp[](razor-pages-start/sample/RazorPagesMovie50/Program.cs)]
 
@@ -164,9 +164,9 @@ The app shows the seeded data:
 > [Previous: Scaffolded Razor Pages](xref:tutorials/razor-pages/page)
 > [Next: Update the pages](xref:tutorials/razor-pages/da1)
 
-::: moniker-end
+:::moniker-end
 
-::: moniker range="< aspnetcore-5.0 >= aspnetcore-3.0"
+:::moniker range="< aspnetcore-5.0"
 
 [View or download sample code](https://github.com/dotnet/AspNetCore.Docs/tree/main/aspnetcore/tutorials/razor-pages/razor-pages-start/sample/RazorPagesMovie30) ([how to download](xref:index#how-to-download-a-sample)).
 
@@ -270,7 +270,7 @@ if (context.Movie.Any())
 
 ### Add the seed initializer
 
-Replace the contents of the *Program.cs* with the following code:
+Replace the contents of the `Program.cs` with the following code:
 
 [!code-csharp[](razor-pages-start/sample/RazorPagesMovie30/Program.cs)]
 
@@ -317,11 +317,11 @@ The app shows the seeded data:
 > [Previous: Scaffolded Razor Pages](xref:tutorials/razor-pages/page)
 > [Next: Update the pages](xref:tutorials/razor-pages/da1)
 
-::: moniker-end
+:::moniker-end
 
-::: moniker range=">= aspnetcore-6.0"
+:::moniker range=">= aspnetcore-6.0"
 
-The `RazorPagesMovieContext` object handles the task of connecting to the database and mapping `Movie` objects to database records. The database context is registered with the [Dependency Injection](xref:fundamentals/dependency-injection) container in *Program.cs*:
+The `RazorPagesMovieContext` object handles the task of connecting to the database and mapping `Movie` objects to database records. The database context is registered with the [Dependency Injection](xref:fundamentals/dependency-injection) container in `Program.cs`:
 
 # [Visual Studio](#tab/visual-studio)
 
@@ -329,7 +329,7 @@ The `RazorPagesMovieContext` object handles the task of connecting to the databa
 
 # [Visual Studio Code / Visual Studio for Mac](#tab/visual-studio-code+visual-studio-mac)
 
-[!code-csharp[](~/tutorials/razor-pages/razor-pages-start/sample/RazorPagesMovie60/Program.cs?name=snippet_di&highlight=6-7)]
+[!code-csharp[](~/tutorials/razor-pages/razor-pages-start/sample/RazorPagesMovie60/Program.cs?name=snippet_di_sl&highlight=6-7)]
 
 ---
 
@@ -404,6 +404,7 @@ There are many third-party tools you can download to manage and view a SQLite da
 
 ## Seed the database
 
+<!-- Next version put it in the Data folder -->
 Create a new class named `SeedData` in the *Models* folder with the following code:
 
 [!code-csharp[](razor-pages-start/sample/RazorPagesMovie60/Models/SeedData.cs?name=snippet_1)]
@@ -421,25 +422,19 @@ if (context.Movie.Any())
 
 ### Add the seed initializer
 
-Update the *Program.cs* with the following highlighted code:
+Update the `Program.cs` with the following highlighted code:
 
 # [Visual Studio](#tab/visual-studio)
 
-[!code-csharp[](~/tutorials/razor-pages/razor-pages-start/sample/RazorPagesMovie60/ProgramSeed.cs?name=snippet_all&highlight=14-19)]
-
-Add a `using` directive to the top of the file:
-
-```csharp
-using RazorPagesMovie.Models;
-```
+[!code-csharp[](~/tutorials/razor-pages/razor-pages-start/sample/RazorPagesMovie60/ProgramSeed.cs?name=snippet_all&highlight=3,14-19)]
 
 # [Visual Studio Code / Visual Studio for Mac](#tab/visual-studio-code+visual-studio-mac)
 
-[!code-csharp[](~/tutorials/razor-pages/razor-pages-start/sample/RazorPagesMovie60/ProgramSeed.cs?name=snippet_all_sl&highlight=14-19)]
+[!code-csharp[](~/tutorials/razor-pages/razor-pages-start/sample/RazorPagesMovie60/ProgramSeed.cs?name=snippet_all_sl&highlight=3,14-19)]
 
 ---
 
-In the previous code, *Program.cs* has been modified to do the following:
+In the previous code, `Program.cs` has been modified to do the following:
 
 * Get a database context instance from the dependency injection (DI) container.
 * Call the `seedData.Initialize` method, passing to it the database context instance.
@@ -464,4 +459,4 @@ The app shows the seeded data:
 > [Previous: Scaffolded Razor Pages](xref:tutorials/razor-pages/page)
 > [Next: Update the pages](xref:tutorials/razor-pages/da1)
 
-::: moniker-end
+:::moniker-end

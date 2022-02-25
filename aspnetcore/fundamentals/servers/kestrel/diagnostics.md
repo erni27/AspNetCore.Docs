@@ -3,7 +3,7 @@ title: Logging and diagnostics in Kestrel
 author: shirhatti
 description: Learn how to gather diagnostics from Kestrel.
 monikerRange: '>= aspnetcore-6.0'
-ms.author: soshir
+ms.author: riande
 ms.date: 07/01/2021
 uid: fundamentals/servers/kestrel/diagnostics
 ---
@@ -20,7 +20,7 @@ This article provides guidance for gathering diagnostics from Kestrel to help tr
 
 ## Logging
 
-Like most components in ASP.NET Core, Kestrel uses `Microsoft.Extensions.Logging` to emit log information. Kestrel employs the use of multiple [categories](xref:fundamentals/logging/index#log-category-1) which allows you to be selective on which logs you listen to.
+Like most components in ASP.NET Core, Kestrel uses `Microsoft.Extensions.Logging` to emit log information. Kestrel employs the use of multiple [categories](xref:fundamentals/logging/index#log-category) which allows you to be selective on which logs you listen to.
 
 | Logging Category Name | Logging Events |
 |--|--|

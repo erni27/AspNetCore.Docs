@@ -6,7 +6,7 @@ monikerRange: '>= aspnetcore-2.1'
 ms.author: riande
 ms.custom: mvc
 ms.date: 01/13/2020
-no-loc: [Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
+no-loc: ["Blazor Hybrid", Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
 uid: host-and-deploy/web-farm
 ---
 # Host ASP.NET Core in a web farm
@@ -35,7 +35,7 @@ Learn about configuration for apps hosted behind proxy servers and load balancer
 
 ## App data
 
-When an app is scaled to multiple instances, there might be app state that requires sharing across nodes. If the state is transient, consider sharing an [IDistributedCache](/dotnet/api/microsoft.extensions.caching.distributed.idistributedcache). If the shared state requires persistence, consider storing the shared state in a database.
+When an app is scaled to multiple instances, there might be app state that requires sharing across nodes. If the state is transient, consider sharing an <xref:Microsoft.Extensions.Caching.Distributed.IDistributedCache>. If the shared state requires persistence, consider storing the shared state in a database.
 
 ## Required configuration
 

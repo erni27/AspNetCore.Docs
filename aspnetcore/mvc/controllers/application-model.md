@@ -4,7 +4,7 @@ author: rick-anderson
 description: Learn how to read and manipulate the application model to modify how MVC elements behave in ASP.NET Core.
 ms.author: riande
 ms.date: 04/05/2021
-no-loc: [Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
+no-loc: ["Blazor Hybrid", Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
 uid: mvc/controllers/application-model
 ---
 # Work with the application model in ASP.NET Core
@@ -166,7 +166,7 @@ The following example applies a convention to routes that aren't using attribute
 
 [!code-csharp[](./application-model/sample/src/AppModelSample/Controllers/NamespaceRoutingController.cs?highlight=7-8)]
 
-::: moniker range="<= aspnetcore-2.2"
+:::moniker range="<= aspnetcore-2.2"
 
 ## Application model usage in `WebApiCompatShim`
 
@@ -209,7 +209,7 @@ The conventions provided by the shim are only applied to parts of the app that h
 
 In addition to a set of conventions, the compatibility package includes a <xref:System.Web.Http.ApiController?displayProperty=fullName> base class that replaces the one provided by web API. This allows your web API controllers written for web API and inheriting from its `ApiController` to work while running on ASP.NET Core MVC. All of the [`UseWebApi*`](xref:Microsoft.AspNetCore.Mvc.WebApiCompatShim) attributes listed earlier are applied to the base controller class. The `ApiController` exposes properties, methods, and result types that are compatible with those found in web API.
 
-::: moniker-end
+:::moniker-end
 
 ## Use `ApiExplorer` to document an app
 

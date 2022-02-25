@@ -5,14 +5,14 @@ description: Part 7 of tutorial series on Razor Pages.
 ms.author: riande
 ms.custom: mvc, contperf-fy21q2
 ms.date: 09/28/2020
-no-loc: [Home, Privacy, Index, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
+no-loc: ["Blazor Hybrid", Home, Privacy, Index, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
 uid: tutorials/razor-pages/new-field
 ---
 # Part 7, add a new field to a Razor Page in ASP.NET Core
 
 By [Rick Anderson](https://twitter.com/RickAndMSFT)
 
-::: moniker range="= aspnetcore-5.0"
+:::moniker range="= aspnetcore-5.0"
 
 [View or download sample code](https://github.com/dotnet/AspNetCore.Docs/tree/main/aspnetcore/tutorials/razor-pages/razor-pages-start/sample/RazorPagesMovie50) ([how to download](xref:index#how-to-download-a-sample)).
 
@@ -42,10 +42,11 @@ Automatic verification that the schema and model are in sync makes it easier to 
 
    [!code-cshtml[](razor-pages-start/sample/RazorPagesMovie50/SnapShots/IndexRating.cshtml?highlight=40-42,62-64)]
 
-1. Update the following pages:
-   1. Add the `Rating` field to the Delete and Details pages.
-   1. Update [Create.cshtml](https://github.com/dotnet/AspNetCore.Docs/tree/main/aspnetcore/tutorials/razor-pages/razor-pages-start/sample/RazorPagesMovie50/Pages/Movies/Create.cshtml) with a `Rating` field.
-   1. Add the `Rating` field to the Edit Page.
+1. Update the following pages with a `Rating` field:
+   * *[Pages/Movies/Create.cshtml](https://github.com/dotnet/AspNetCore.Docs/blob/main/aspnetcore/tutorials/razor-pages/razor-pages-start/sample/RazorPagesMovie50/Pages/Movies/Create.cshtml)*.
+   * *[Pages/Movies/Delete.cshtml](https://github.com/dotnet/AspNetCore.Docs/blob/main/aspnetcore/tutorials/razor-pages/razor-pages-start/sample/RazorPagesMovie50/Pages/Movies/Delete.cshtml)*.
+   * *[Pages/Movies/Details.cshtml](https://github.com/dotnet/AspNetCore.Docs/blob/main/aspnetcore/tutorials/razor-pages/razor-pages-start/sample/RazorPagesMovie50/Pages/Movies/Details.cshtml)*.
+   * *[Pages/Movies/Edit.cshtml](https://github.com/dotnet/AspNetCore.Docs/blob/main/aspnetcore/tutorials/razor-pages/razor-pages-start/sample/RazorPagesMovie50/Pages/Movies/Edit.cshtml)*.
 
 The app won't work until the database is updated to include the new field. Running the app without an update to the database throws a `SqlException`:
 
@@ -127,7 +128,7 @@ The `dotnet-ef migrations add rating` command tells the framework to:
 
 The name `rating` is arbitrary and is used to name the migration file. It's helpful to use a meaningful name for the migration file.
 
-The `dotnet-ef database update` command tells the framework to apply the schema changes to the database and to preserve existing data.
+The `dotnet ef database update` command tells the framework to apply the schema changes to the database and to preserve existing data.
 
 Delete all the records in the database, the initializer will seed the database and include the `Rating` field. 
 
@@ -171,9 +172,9 @@ Run the app and verify you can create/edit/display movies with a `Rating` field.
 > [Previous: Add Search](xref:tutorials/razor-pages/search)
 > [Next: Add Validation](xref:tutorials/razor-pages/validation)
 
-::: moniker-end
+:::moniker-end
 
-::: moniker range="< aspnetcore-5.0"
+:::moniker range="< aspnetcore-5.0"
 
 [View or download sample code](https://github.com/dotnet/AspNetCore.Docs/tree/main/aspnetcore/tutorials/razor-pages/razor-pages-start/sample/RazorPagesMovie30) ([how to download](xref:index#how-to-download-a-sample)).
 
@@ -203,10 +204,11 @@ Automatic verification that the schema and model are in sync makes it easier to 
 
    [!code-cshtml[](razor-pages-start/sample/RazorPagesMovie30/SnapShots/IndexRating.cshtml?highlight=40-42,62-64)]
 
-1. Update the following pages:
-   1. Add the `Rating` field to the Delete and Details pages.
-   1. Update [Create.cshtml](https://github.com/dotnet/AspNetCore.Docs/tree/main/aspnetcore/tutorials/razor-pages/razor-pages-start/sample/RazorPagesMovie30/Pages/Movies/Create.cshtml) with a `Rating` field.
-   1. Add the `Rating` field to the Edit Page.
+1. Update the following pages with a `Rating` field:
+   * *[Pages/Movies/Create.cshtml](https://github.com/dotnet/AspNetCore.Docs/blob/main/aspnetcore/tutorials/razor-pages/razor-pages-start/sample/RazorPagesMovie30/Pages/Movies/Create.cshtml)*.
+   * *[Pages/Movies/Delete.cshtml](https://github.com/dotnet/AspNetCore.Docs/blob/main/aspnetcore/tutorials/razor-pages/razor-pages-start/sample/RazorPagesMovie30/Pages/Movies/Delete.cshtml)*.
+   * *[Pages/Movies/Details.cshtml](https://github.com/dotnet/AspNetCore.Docs/blob/main/aspnetcore/tutorials/razor-pages/razor-pages-start/sample/RazorPagesMovie30/Pages/Movies/Details.cshtml)*.
+   * *[Pages/Movies/Edit.cshtml](https://github.com/dotnet/AspNetCore.Docs/blob/main/aspnetcore/tutorials/razor-pages/razor-pages-start/sample/RazorPagesMovie30/Pages/Movies/Edit.cshtml)*.
 
 The app won't work until the database is updated to include the new field. Running the app without an update to the database throws a `SqlException`:
 
@@ -312,9 +314,9 @@ Run the app and verify you can create/edit/display movies with a `Rating` field.
 > [Previous: Add Search](xref:tutorials/razor-pages/search)
 > [Next: Add Validation](xref:tutorials/razor-pages/validation)
 
-::: moniker-end
+:::moniker-end
 
-::: moniker range=">= aspnetcore-6.0"
+:::moniker range=">= aspnetcore-6.0"
 
 In this section [Entity Framework](/ef/core/get-started/aspnetcore/new-db) Code First Migrations is used to:
 
@@ -336,7 +338,11 @@ Automatic verification that the schema and model are in sync makes it easier to 
    <a name="addrat6"></a>
    [!code-cshtml[](razor-pages-start/snapshot_sample6/Pages/Movies/IndexRating.cshtml?highlight=40-42,62-64)]
 
-1. Update the Delete, Details, Create, and Edit pages with the `Rating` field.
+1. Update the following pages with a `Rating` field:
+   * *[Pages/Movies/Create.cshtml](https://github.com/dotnet/AspNetCore.Docs/blob/main/aspnetcore/tutorials/razor-pages/razor-pages-start/sample/RazorPagesMovie60/Pages/Movies/Create.cshtml)*.
+   * *[Pages/Movies/Delete.cshtml](https://github.com/dotnet/AspNetCore.Docs/blob/main/aspnetcore/tutorials/razor-pages/razor-pages-start/sample/RazorPagesMovie60/Pages/Movies/Delete.cshtml)*.
+   * *[Pages/Movies/Details.cshtml](https://github.com/dotnet/AspNetCore.Docs/blob/main/aspnetcore/tutorials/razor-pages/razor-pages-start/sample/RazorPagesMovie60/Pages/Movies/Details.cshtml)*.
+   * *[Pages/Movies/Edit.cshtml](https://github.com/dotnet/AspNetCore.Docs/blob/main/aspnetcore/tutorials/razor-pages/razor-pages-start/sample/RazorPagesMovie60/Pages/Movies/Edit.cshtml)*.
 
 The app won't work until the database is updated to include the new field. Running the app without an update to the database throws a `SqlException`:
 
@@ -460,4 +466,4 @@ Run the app and verify you can create, edit, and display movies with a `Rating` 
 > [Previous: Add Search](xref:tutorials/razor-pages/search)
 > [Next: Add Validation](xref:tutorials/razor-pages/validation)
 
-::: moniker-end
+:::moniker-end
